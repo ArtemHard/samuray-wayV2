@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { Header } from "./components/Header/Header";
+import { Footer } from "./Footer";
+import { Profile } from "./components/Profile/Profile";
+import { Navbar } from "./components/Navbar/Navbar";
+import { Route, Routes } from "react-router-dom";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import { store } from "./redux/redux-store";
 
-function App() {
+type appState = {
+  // state: StateType
+  // dispatch: (action: any) => void
+};
+
+function App(props: appState) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='AppWrapper'>
+      <Header />
+      <Navbar />
+      <Routes>
+        <Route
+          path={"/profile"}
+          element={
+            <Profile
+              profilePage={store.getState().profilePage}
+              // dispatch={props.dispatch}
+            />
+          }
+        />
+        <Route path={"/dialogs"} element={<DialogsContainer />} />
+      </Routes>
+      <Footer />
     </div>
   );
 }
