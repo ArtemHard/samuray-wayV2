@@ -14,10 +14,10 @@ export const Dialogs = (props: StateType) => {
   const newMessageBody = props.state.newMessageText;
 
   const dialogs = props.state.dialogs.map((d) => {
-    return <DialogItem name={d.name} id={d.id} />;
+    return <DialogItem name={d.name} key={d.id} id={d.id} />;
   });
   const messages = props.state.messages.map((m) => {
-    return <Message message={m.message} />;
+    return <Message key={m.id} message={m.message} />;
   });
 
   const onSendmessageClickkhandler = () => {
