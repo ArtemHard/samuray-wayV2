@@ -7,13 +7,10 @@ import { Navbar } from "./components/Navbar/Navbar";
 import { Route, Routes } from "react-router-dom";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import { store } from "./redux/redux-store";
+import { Users } from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer";
 
-type appState = {
-  // state: StateType
-  // dispatch: (action: any) => void
-};
-
-function App(props: appState) {
+function App() {
   return (
     <div className='AppWrapper'>
       <Header />
@@ -29,6 +26,7 @@ function App(props: appState) {
           }
         />
         <Route path={"/dialogs"} element={<DialogsContainer />} />
+        <Route path='/users' element={<UsersContainer />} />
       </Routes>
       <Footer />
     </div>

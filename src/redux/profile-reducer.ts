@@ -20,7 +20,7 @@ let initialState: profilePageType = {
       likesCount: 13,
     },
   ],
-  newPostText: "it-Kamasutra",
+  newPostText: "",
 };
 
 export const ProfileReducer = (
