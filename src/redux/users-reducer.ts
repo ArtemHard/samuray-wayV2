@@ -7,7 +7,10 @@ type LocationType = {
 export type UsersType = {
   id: number;
   followed: boolean;
-  photoUrl: string;
+  photos: {
+    small: string;
+    large: string;
+  };
   name: string;
   status: string;
   location: LocationType;
@@ -17,33 +20,33 @@ export type InitialStateUsersType = {
 };
 let initialState: InitialStateUsersType = {
   users: [
-    {
-      id: 1,
-      followed: false,
-      photoUrl:
-        "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
-      name: "Dmitry",
-      status: 'I"am a sensey',
-      location: { city: "Minsk", country: "Belarus" },
-    },
-    {
-      id: 2,
-      followed: true,
-      photoUrl:
-        "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
-      name: "Dmitry",
-      status: 'I"am a sensey',
-      location: { city: "Moscow", country: "Russia" },
-    },
-    {
-      id: 3,
-      followed: false,
-      photoUrl:
-        "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
-      name: "Dmitry",
-      status: 'I"am a sensey',
-      location: { city: "Kiev", country: "Ukraine" },
-    },
+    // {
+    //   id: 1,
+    //   followed: false,
+    //   photoUrl:
+    //     "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
+    //   name: "Dmitry",
+    //   status: 'I"am a sensey',
+    //   location: { city: "Minsk", country: "Belarus" },
+    // },
+    // {
+    //   id: 2,
+    //   followed: true,
+    //   photoUrl:
+    //     "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
+    //   name: "Dmitry",
+    //   status: 'I"am a sensey',
+    //   location: { city: "Moscow", country: "Russia" },
+    // },
+    // {
+    //   id: 3,
+    //   followed: false,
+    //   photoUrl:
+    //     "https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png",
+    //   name: "Dmitry",
+    //   status: 'I"am a sensey',
+    //   location: { city: "Kiev", country: "Ukraine" },
+    // },
   ],
 };
 
@@ -53,7 +56,6 @@ export const usersReducer = (
 ): InitialStateUsersType => {
   switch (action.type) {
     case "FOLLOW":
-      // debugger;
       const newState = {
         ...state,
         users: state.users.map((u) =>
@@ -61,12 +63,7 @@ export const usersReducer = (
         ),
       };
       return newState;
-    // {
-    //   ...state,
-    //   users: state.users.map((u) =>
-    //     u.id === action.id ? { ...u, followed: true } : u
-    //   ),
-    // };
+
     case "UNFOLLOW":
       return {
         ...state,

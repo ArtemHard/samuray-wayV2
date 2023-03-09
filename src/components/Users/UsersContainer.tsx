@@ -9,6 +9,7 @@ import {
   UsersType,
 } from "../../redux/users-reducer";
 import { Users } from "./Users";
+import UserC from "./UsersC";
 
 type MapStateToPropsType = {
   users: Array<UsersType>;
@@ -38,5 +39,5 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
   };
 };
 
-let UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
+let UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UserC);
 export default UsersContainer;
