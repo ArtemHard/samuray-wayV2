@@ -13,10 +13,14 @@ import UserC from "./UsersC";
 
 type MapStateToPropsType = {
   users: Array<UsersType>;
+  pageSize: number;
+  totalUsersCount: number;
 };
 const mapStateToProps = (state: reducersType): MapStateToPropsType => {
   return {
     users: state.usersPage.users,
+    pageSize: state.usersPage.pageSize,
+    totalUsersCount: state.usersPage.totalUsersCount,
   };
 };
 

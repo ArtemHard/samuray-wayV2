@@ -6,6 +6,8 @@ import { avatarUrlUndefined } from "../assets/images/constantsImg";
 
 type UsersPropsType = {
   users: Array<UsersType>;
+  pageSize: number;
+  totalUsersCount: number;
   follow: (id: number) => void;
   unFollow: (id: number) => void;
   setUsersAC: (users: UsersType[]) => void;
@@ -21,8 +23,16 @@ class UserC extends React.Component<UsersPropsType> {
   }
 
   render() {
+    let pagesCount = this.props.totalUsersCount / this.props.pageSize;
     return (
       <div>
+        <div>
+          <SpanPageCount>1</SpanPageCount>
+          <SpanPageCount className='selected'>2</SpanPageCount>
+          <SpanPageCount>3</SpanPageCount>
+          <SpanPageCount>4</SpanPageCount>
+          <SpanPageCount>5</SpanPageCount>
+        </div>
         {this.props.users.map((u) => (
           <div key={u.id}>
             <span>
@@ -65,6 +75,14 @@ const AvatarImg = styled.img.attrs({
 })`
   width: 100px;
   height: 100px;
+`;
+
+type SpanPageCountType = {
+  className?: string;
+};
+const SpanPageCount = styled.span<SpanPageCountType>`
+  font-weight: ${(props) =>
+    props.className === "selected" ? "bold" : "normal"};
 `;
 
 export default UserC;

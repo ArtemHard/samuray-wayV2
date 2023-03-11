@@ -1,5 +1,3 @@
-import { debug } from "console";
-
 type LocationType = {
   city: string;
   country: string;
@@ -17,6 +15,8 @@ export type UsersType = {
 };
 export type InitialStateUsersType = {
   users: Array<UsersType>;
+  pageSize: number;
+  totalUsersCount: number;
 };
 let initialState: InitialStateUsersType = {
   users: [
@@ -48,6 +48,8 @@ let initialState: InitialStateUsersType = {
     //   location: { city: "Kiev", country: "Ukraine" },
     // },
   ],
+  pageSize: 5,
+  totalUsersCount: 0,
 };
 
 export const usersReducer = (
