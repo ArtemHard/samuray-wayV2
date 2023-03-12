@@ -3,35 +3,64 @@ import React from "react";
 import styled from "styled-components";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
+import { AvatarImg, SpanPageCount } from "./UsersC.styled";
 
 type UsersPropsType = {
   users: Array<UsersType>;
   pageSize: number;
   totalUsersCount: number;
+  currentPage: number;
   follow: (id: number) => void;
   unFollow: (id: number) => void;
-  setUsersAC: (users: UsersType[]) => void;
+  setUsers: (users: UsersType[]) => void;
+  setCurrentPage: (pageNumber: number) => void;
+  setTotalUsersCount: (totalUsersCount: number) => void;
 };
 
 class UserC extends React.Component<UsersPropsType> {
   componentDidMount() {
     axios
-      .get("https://social-network.samuraijs.com/api/1.0/users")
+      .get(
+        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+      )
       .then((response) => {
-        this.props.setUsersAC(response.data.items);
+        this.props.setUsers(response.data.items);
+        if (typeof response.data.totalCount === "number")
+          this.props.setTotalUsersCount(response.data.totalCount);
       });
   }
-
+  onPageChanged = (pageNumber: number) => {
+    this.props.setCurrentPage(pageNumber);
+    axios
+      .get(
+        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`
+      )
+      .then((response) => {
+        this.props.setUsers(response.data.items);
+      });
+  };
   render() {
-    let pagesCount = this.props.totalUsersCount / this.props.pageSize;
+    let pagesCount = Math.ceil(
+      this.props.totalUsersCount / this.props.pageSize
+    );
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+      pages.push(i);
+    }
     return (
       <div>
         <div>
-          <SpanPageCount>1</SpanPageCount>
-          <SpanPageCount className='selected'>2</SpanPageCount>
-          <SpanPageCount>3</SpanPageCount>
-          <SpanPageCount>4</SpanPageCount>
-          <SpanPageCount>5</SpanPageCount>
+          {pages.map((p) => (
+            <SpanPageCount
+              className={this.props.currentPage === p ? "selected" : ""}
+              onClick={() => {
+                this.onPageChanged(p);
+              }}
+              key={p}
+            >
+              {p}
+            </SpanPageCount>
+          ))}
         </div>
         {this.props.users.map((u) => (
           <div key={u.id}>
@@ -69,20 +98,5 @@ class UserC extends React.Component<UsersPropsType> {
     );
   }
 }
-
-const AvatarImg = styled.img.attrs({
-  className: "userPhoto",
-})`
-  width: 100px;
-  height: 100px;
-`;
-
-type SpanPageCountType = {
-  className?: string;
-};
-const SpanPageCount = styled.span<SpanPageCountType>`
-  font-weight: ${(props) =>
-    props.className === "selected" ? "bold" : "normal"};
-`;
 
 export default UserC;
