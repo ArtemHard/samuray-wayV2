@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
+import { SpanPageCount } from "./UsersC.styled";
 
 type UsersPropsType = {
   users: Array<UsersType>;
@@ -11,9 +12,10 @@ type UsersPropsType = {
   currentPage: number;
   follow: (id: number) => void;
   unFollow: (id: number) => void;
-  setUsers: (users: UsersType[]) => void;
-  setCurrentPage: (pageNumber: number) => void;
-  setTotalUsersCount: (totalUsersCount: number) => void;
+  // setUsers: (users: UsersType[]) => void;
+  // setCurrentPage: (pageNumber: number) => void;
+  // setTotalUsersCount: (totalUsersCount: number) => void;
+  onPageChanged: (pageNumber: number) => void;
 };
 export const Users = (props: UsersPropsType) => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -23,6 +25,19 @@ export const Users = (props: UsersPropsType) => {
   }
   return (
     <div>
+      <div>
+        {pages.map((p) => {
+          return (
+            <SpanPageCount
+              key={p}
+              className={props.currentPage === p ? "selected" : ""}
+              onClick={() => props.onPageChanged(p)}
+            >
+              {p}
+            </SpanPageCount>
+          );
+        })}
+      </div>
       {props.users.map((u) => (
         <div key={u.id}>
           <span>
