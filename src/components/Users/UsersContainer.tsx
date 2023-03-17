@@ -13,7 +13,7 @@ import { Users } from "./Users";
 import axios from "axios";
 import React from "react";
 
-type UserAPIComponentPropsType = {
+type UsersContainerPropsType = {
   users: Array<UsersType>;
   pageSize: number;
   totalUsersCount: number;
@@ -24,18 +24,33 @@ type UserAPIComponentPropsType = {
   setCurrentPage: (pageNumber: number) => void;
   setTotalUsersCount: (totalUsersCount: number) => void;
 };
-
-class UserAPIComponent extends React.Component<UserAPIComponentPropsType> {
-  componentDidMount() {
-    axios
+const usersApi = {
+  getUsers(currentPage: number, pageSize: number) {
+    return axios
       .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+        `https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`
       )
-      .then((response) => {
-        this.props.setUsers(response.data.items);
-        if (typeof response.data.totalCount === "number")
-          this.props.setTotalUsersCount(response.data.totalCount);
+      .then((response) => response.data);
+  },
+};
+class UsersContainer extends React.Component<UsersContainerPropsType> {
+  componentDidMount() {
+    usersApi
+      .getUsers(this.props.currentPage, this.props.pageSize)
+      .then((data) => {
+        this.props.setUsers(data.items);
+        if (typeof data.totalCount === "number")
+          this.props.setTotalUsersCount(data.totalCount);
       });
+    // axios
+    //   .get(
+    //     `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`
+    //   )
+    //   .then((response) => {
+    //     this.props.setUsers(response.data.items);
+    //     if (typeof response.data.totalCount === "number")
+    //       this.props.setTotalUsersCount(response.data.totalCount);
+    //   });
   }
   onPageChanged = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber);
@@ -106,8 +121,4 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToProps => {
   };
 };
 
-let UsersContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserAPIComponent);
-export default UsersContainer;
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
