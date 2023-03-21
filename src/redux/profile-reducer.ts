@@ -1,11 +1,13 @@
-import { PostType } from "./store";
-
-const ADD_POST = "ADD-POST";
-const UPDATE_NEWPOST = "UPDATE-NEWPOST";
+import { ProfileReducerActionTypes } from "./actions/profileAC";
+import {
+  PostType,
+  ProfileType,
+} from "./types/reducersTypes/profileReducerType";
 
 export type profilePageType = {
   posts: PostType[];
   newPostText: string;
+  profile: ProfileType | null;
 };
 let initialState: profilePageType = {
   posts: [
@@ -21,14 +23,15 @@ let initialState: profilePageType = {
     },
   ],
   newPostText: "",
+  profile: null,
 };
 
 export const ProfileReducer = (
   state = initialState,
-  action: ActionTypes
+  action: ProfileReducerActionTypes
 ): profilePageType => {
   switch (action.type) {
-    case ADD_POST:
+    case "ADD-POST":
       let newPost = {
         id: 3,
         message: state.newPostText,
@@ -41,26 +44,14 @@ export const ProfileReducer = (
         newPostText: "",
       };
 
-    case UPDATE_NEWPOST: {
+    case "UPDATE-NEWPOST": {
       return { ...state, newPostText: action.newText };
+    }
+
+    case "SET-USER-PROFILE": {
+      return { ...state, profile: action.profile };
     }
     default:
       return state;
   }
-};
-
-type ActionTypes =
-  | ReturnType<typeof addPostAC>
-  | ReturnType<typeof updatePostsAC>;
-
-export const addPostAC = () => {
-  return {
-    type: ADD_POST,
-  } as const;
-};
-export const updatePostsAC = (text: string) => {
-  return {
-    type: UPDATE_NEWPOST,
-    newText: text,
-  } as const;
 };

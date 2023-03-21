@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-import { PostType } from "../../../redux/store";
+import { PostType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Post } from "./Post/Post";
 
 type PostsType = {
@@ -12,7 +12,9 @@ type PostsType = {
 
 export const MyPosts = (props: PostsType) => {
   const posts = props.posts.map((post) => {
-    return <Post message={post.message} likesCount={post.likesCount} />;
+    return (
+      <Post key={post.id} message={post.message} likesCount={post.likesCount} />
+    );
   });
   let newPostElement = useRef<HTMLTextAreaElement>(null);
 

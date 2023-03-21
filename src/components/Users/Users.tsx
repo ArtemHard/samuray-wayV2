@@ -1,5 +1,6 @@
 import axios from "axios";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
@@ -39,9 +40,11 @@ export const Users = (props: UsersPropsType) => {
         <div key={u.id}>
           <span>
             <div>
-              <AvatarImg
-                src={u.photos.small ? u.photos.small : avatarUrlUndefined}
-              />
+              <NavLink to={"/profile/" + u.id}>
+                <AvatarImg
+                  src={u.photos.small ? u.photos.small : avatarUrlUndefined}
+                />
+              </NavLink>
             </div>
             <div>
               {u.followed ? (

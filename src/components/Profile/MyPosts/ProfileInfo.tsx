@@ -1,16 +1,35 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
+import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
+import { Loader } from "../../common/Loader/Loader";
 
-export const ProfileInfo = () => {
-    return (
-        <Wrapper>
-            <img
-                src="https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png"
-                alt="ava"/>
+type ProfileInfoPropsType = {
+  profile: ProfileType | null;
+};
 
-            <div>Ava + description</div>
-        </Wrapper>
-    );
+export const ProfileInfo = ({ profile }: ProfileInfoPropsType) => {
+  if (!profile) {
+    return <Loader />;
+  }
+  return (
+    <Wrapper>
+      <img
+        src='https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png'
+        alt='ava'
+      />
+
+      <div>
+        <AvatarImg src={profile.photos.large} />
+      </div>
+      <div>
+        <div>
+          <b>{profile.fullName}</b>
+        </div>
+        <div>{profile.aboutMe}</div>
+        <div>{profile.contacts.vk}</div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.div`
@@ -18,5 +37,13 @@ const Wrapper = styled.div`
   & > img {
     width: 50px;
   }
-
-`
+`;
+type AvatarImgPropsType = {
+  src: string;
+};
+const AvatarImg = styled.img.attrs<AvatarImgPropsType>((props) => ({
+  src: props.src,
+}))`
+  width: 300px;
+  object-fit: cover;
+`;

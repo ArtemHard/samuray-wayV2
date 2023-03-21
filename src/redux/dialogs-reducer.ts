@@ -1,4 +1,7 @@
-import { DialogsType, MessageType } from "./store";
+import {
+  DialogsType,
+  MessageType,
+} from "./types/reducersTypes/dialogsReducerTypes";
 
 const SEND_MESSAGE = "ADD-NEWPOSTTEXT";
 const UPDATE_NEWPOSTTEXT = "UPDATE-NEWPOSTTEXT";
