@@ -1,8 +1,8 @@
-import axios from "axios";
+import { instance } from "./axios";
 
 export const usersApi = {
   getUsers(currentPage: number, pageSize: number) {
-    return axios
+    return instance
       .get(
         `https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`
       )

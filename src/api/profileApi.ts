@@ -1,10 +1,9 @@
-import axios from "axios";
-import { BASE_URL } from "../constants/path";
+import { instance } from "./axios";
 
 export const profileApi = {
   getProfile(userId?: string) {
-    return axios
-      .get(BASE_URL + `profile/` + generateUserId(userId))
+    return instance
+      .get(`profile/` + generateUserId(userId))
       .then((response) => response.data);
   },
 };
