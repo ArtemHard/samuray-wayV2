@@ -1,9 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { AuthInitialStateType } from "../../redux/reducers/auth-reducer";
 import { HeaderWrapper, ImgWrapper, LoginBlock } from "./Header.styled";
+import { HeaderDispatchProps } from "./HeaderContainer";
 
-export const Header = () => {
+type HeaderPropsType = AuthInitialStateType & HeaderDispatchProps;
+
+export const Header = (props: HeaderPropsType) => {
   return (
     <HeaderWrapper>
       <ImgWrapper>
@@ -13,7 +17,7 @@ export const Header = () => {
         />
       </ImgWrapper>
       <LoginBlock>
-        <NavLink to={"/login"}>Login</NavLink>
+        {props.isAuth ? props.login : <NavLink to={"/login"}>Login</NavLink>}
       </LoginBlock>
     </HeaderWrapper>
   );

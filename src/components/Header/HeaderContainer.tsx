@@ -1,29 +1,12 @@
-import { Component } from "react";
-import { connect, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { Dispatch } from "redux";
 import { authApi } from "../../api/authApi";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { setAuthUserData, userDataType } from "../../redux/actions/authAC";
-import { reducersType, storeType } from "../../redux/redux-store";
+import { reducersType } from "../../redux/redux-store";
 import { toggleIsFetching } from "../../redux/users-reducer";
 import { Header } from "./Header";
-/*
-export class HeaderContainer extends Component {
-  componentDidMount(): void {
-    // this.props.toggleIsFetching(true);
-    authApi.authMe().then((data) => {
-      debugger;
-    });
-  }
-  render() {
-    return <Header {...this.props} />;
-  }
-}
-*/
-// const mapStateToProps
 
-// export default connect()()
-// type mapStateToPropsType = {};
 const selectorAuthId = (state: reducersType) => {
   return {
     id: state.auth.id,
@@ -39,46 +22,55 @@ const selectorAuthEmail = (state: reducersType) => {
     email: state.auth.email,
   } as const;
 };
+const selectorAuthisAuth = (state: reducersType) => {
+  return {
+    isAuth: state.auth.isAuth,
+  } as const;
+};
 const selectorAuthisFetching = (state: reducersType) => {
   return {
     isFetching: state.auth.isFetching,
   } as const;
 };
 
+export type HeaderDispatchProps = ReturnType<typeof mapDispatchToProps>;
 const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     setAuthUserData: (userData: userDataType) =>
       dispatch(setAuthUserData(userData)),
     toggleIsFetching: () => dispatch(toggleIsFetching),
-  };
+  } as const;
 };
 
 export const HeaderContainer = () => {
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    authApi.authMe().then((data) => {
+      if (data.resultCode === 0) {
+        console.log(data);
+        const { id, login, email, isAuth } = data.data;
+        dispatch(setAuthUserData({ id, login, email, isAuth }));
+      }
+      if (data.resultCode === 1) {
+        console.warn("NOT AUTHORIZED");
+      }
+    });
+  }, []);
 
-  authApi.authMe().then((data) => {
-    console.log(data);
-
-    if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data.login));
-    }
-    if (data.resultCode === 1) {
-      console.log("NOT AUTHORIZED");
-    }
-  });
-
-  const id = useAppSelector(selectorAuthId);
-  const login = useAppSelector(selectorAuthLogin);
-  const email = useAppSelector(selectorAuthEmail);
-  const isFetching = useAppSelector(selectorAuthisFetching);
+  const { id } = useAppSelector(selectorAuthId);
+  const { login } = useAppSelector(selectorAuthLogin);
+  const { email } = useAppSelector(selectorAuthEmail);
+  const { isAuth } = useAppSelector(selectorAuthisAuth);
+  const { isFetching } = useAppSelector(selectorAuthisFetching);
 
   return (
     <Header
-    // id={id}
-    // login={login}
-    // email={email}
-    // isFetching={isFetching}
-    // {...mapDispatchToProps(dispatch)}
+      id={id}
+      login={login}
+      email={email}
+      isAuth={isAuth}
+      isFetching={isFetching}
+      {...mapDispatchToProps(dispatch)}
     />
   );
 };

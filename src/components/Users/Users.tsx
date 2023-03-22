@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { usersApi } from "../../api/usersApi";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
 import { SpanPageCount } from "./Users.styled";
@@ -48,9 +49,32 @@ export const Users = (props: UsersPropsType) => {
             </div>
             <div>
               {u.followed ? (
-                <button onClick={() => props.follow(u.id)}>Followed</button>
+                <button
+                  onClick={() => {
+                    usersApi.unFollowUser(u.id).then((data) => {
+                      console.log(data);
+
+                      if (data.resultCode === 0) {
+                        props.unFollow(u.id);
+                      }
+                    });
+                  }}
+                >
+                  UnFollowed
+                </button>
               ) : (
-                <button onClick={() => props.unFollow(u.id)}>UnFollowed</button>
+                <button
+                  onClick={() => {
+                    usersApi.followUser(u.id).then((data) => {
+                      console.log(data);
+                      if (data.resultCode === 0) {
+                        props.follow(u.id);
+                      }
+                    });
+                  }}
+                >
+                  Followed
+                </button>
               )}
             </div>
           </span>

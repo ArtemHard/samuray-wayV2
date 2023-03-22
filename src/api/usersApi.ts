@@ -8,4 +8,10 @@ export const usersApi = {
       )
       .then((response) => response.data);
   },
+  followUser(userId: number) {
+    return instance.post("/follow/" + userId).then((respone) => respone.data);
+  },
+  unFollowUser(userId: number) {
+    return instance.delete("/follow/" + userId).then((respone) => respone.data);
+  },
 };
