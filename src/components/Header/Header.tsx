@@ -1,11 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import styled from "styled-components";
 import { AuthInitialStateType } from "../../redux/reducers/auth-reducer";
 import { HeaderWrapper, ImgWrapper, LoginBlock } from "./Header.styled";
-import { HeaderDispatchProps } from "./HeaderContainer";
 
-type HeaderPropsType = AuthInitialStateType & HeaderDispatchProps;
+type HeaderPropsType = AuthInitialStateType;
 
 export const Header = (props: HeaderPropsType) => {
   return (

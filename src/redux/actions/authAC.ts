@@ -1,3 +1,5 @@
+import { Dispatch } from "redux";
+import { authApi } from "../../api/authApi";
 import { AuthInitialStateType } from "../reducers/auth-reducer";
 import { toggleIsFetching } from "../users-reducer";
 
@@ -11,4 +13,20 @@ export const setAuthUserData = (userData: userDataType) => {
     type: "SET-AUTH-USER-DATA",
     userData,
   } as const;
+};
+
+export const authUser = () => (dispatch: Dispatch) => {
+  authApi.authMe().then((data) => {
+    console.log("here");
+
+    if (data.resultCode === 0) {
+      console.log(data);
+
+      const { id, login, email, isAuth } = data.data;
+      dispatch(setAuthUserData({ id, login, email, isAuth }));
+    }
+    if (data.resultCode === 1) {
+      console.warn("NOT AUTHORIZED");
+    }
+  });
 };

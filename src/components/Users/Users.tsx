@@ -12,6 +12,7 @@ type UsersPropsType = {
   pageSize: number;
   totalUsersCount: number;
   currentPage: number;
+  followingInProgress: number[];
   follow: (id: number) => void;
   unFollow: (id: number) => void;
   onPageChanged: (pageNumber: number) => void;
@@ -50,28 +51,15 @@ export const Users = (props: UsersPropsType) => {
             <div>
               {u.followed ? (
                 <button
-                  onClick={() => {
-                    usersApi.unFollowUser(u.id).then((data) => {
-                      console.log(data);
-
-                      if (data.resultCode === 0) {
-                        props.unFollow(u.id);
-                      }
-                    });
-                  }}
+                  onClick={() => props.unFollow(u.id)}
+                  disabled={props.followingInProgress.some((id) => id === u.id)}
                 >
                   UnFollowed
                 </button>
               ) : (
                 <button
-                  onClick={() => {
-                    usersApi.followUser(u.id).then((data) => {
-                      console.log(data);
-                      if (data.resultCode === 0) {
-                        props.follow(u.id);
-                      }
-                    });
-                  }}
+                  onClick={() => props.follow(u.id)}
+                  disabled={props.followingInProgress.some((id) => id === u.id)}
                 >
                   Followed
                 </button>

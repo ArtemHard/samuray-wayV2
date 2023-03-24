@@ -14,10 +14,8 @@ interface ProfileContainerPropsType extends WithRouterProps {
 
 class ProfileContainer extends Component<ProfileContainerPropsType> {
   componentDidMount(): void {
-    let location = this.props.location;
+    // let location = this.props.location;
     let { userId } = this.props.params;
-    console.log(location);
-    console.log(userId);
 
     profileApi.getProfile(userId).then((data) => {
       this.props.setUserProfile(data);
