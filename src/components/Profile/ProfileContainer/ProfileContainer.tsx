@@ -1,28 +1,26 @@
 import { Component } from "react";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { profileApi } from "../../../api/profileApi";
-import { setUserProfile } from "../../../redux/actions/profileAC";
+import { getProfile } from "../../../redux/actions/profileAC";
 import { reducersType } from "../../../redux/redux-store";
 import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Profile } from "../Profile";
 
-interface ProfileContainerPropsType extends WithRouterProps {
-  profile: ProfileType | null;
-  setUserProfile: (data: any) => void;
-}
+// interface ProfileContainerPropsType extends WithRouterProps {
+//   profile: ProfileType | null;
+//   setUserProfile: (data: any) => void;
+// }
 
-class ProfileContainer extends Component<ProfileContainerPropsType> {
+type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
+
+export class ProfileContainer extends Component<ProfileContainerPropsType> {
   componentDidMount(): void {
     // let location = this.props.location;
     let { userId } = this.props.params;
-
-    profileApi.getProfile(userId).then((data) => {
-      this.props.setUserProfile(data);
-    });
+    this.props.getProfile(userId);
   }
   render() {
-    return <Profile {...this.props} profile={this.props.profile} />;
+    return <Profile profile={this.props.profile} />;
   }
 }
 
@@ -76,6 +74,8 @@ export const withRouter2 = <Props extends WithRouterProps>(
   };
 };
 
-export default connect(mapStateToProps, {
-  setUserProfile,
-})(withRouter2(ProfileContainer));
+type PropsFromRedux = ConnectedProps<typeof connector>;
+const connector = connect(mapStateToProps, {
+  getProfile,
+});
+export default connector(withRouter2(ProfileContainer));

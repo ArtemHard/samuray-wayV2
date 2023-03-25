@@ -3,13 +3,13 @@ import { ProfileInfo } from "./MyPosts/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import { profilePageType } from "../../redux/profile-reducer";
 import { ProfileType } from "../../redux/types/reducersTypes/profileReducerType";
+import { AnyAction, Dispatch } from "redux";
 
 type ProfilePropsType = {
   profile: ProfileType | null;
-  setUserProfile: (data: any) => void;
 };
 
-export const Profile = ({ profile, setUserProfile }: ProfilePropsType) => {
+export const Profile = ({ profile }: ProfilePropsType) => {
   return (
     <div className={"MainContent"}>
       <ul>

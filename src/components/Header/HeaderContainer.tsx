@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { authApi } from "../../api/authApi";
+
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { authUser, setAuthUserData } from "../../redux/actions/authAC";
+import { getAuthUserData } from "../../redux/actions/authAC";
 import {
   selectorAuthEmail,
   selectorAuthId,
@@ -22,20 +22,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
 };
 */
 export const HeaderContainer = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    authUser();
-    // authApi.authMe().then((data) => {
-    //   console.log("here");
-    //   if (data.resultCode === 0) {
-    //     console.log(data);
-    //     const { id, login, email, isAuth } = data.data;
-    //     dispatch(setAuthUserData({ id, login, email, isAuth }));
-    //   }
-    //   if (data.resultCode === 1) {
-    //     console.warn("NOT AUTHORIZED");
-    //   }
-    // });
+    dispatch(getAuthUserData());
   }, []);
 
   const { id } = useAppSelector(selectorAuthId);

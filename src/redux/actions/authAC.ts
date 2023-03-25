@@ -15,7 +15,7 @@ export const setAuthUserData = (userData: userDataType) => {
   } as const;
 };
 
-export const authUser = () => (dispatch: Dispatch) => {
+export const getAuthUserData = () => (dispatch: Dispatch) => {
   authApi.authMe().then((data) => {
     console.log("here");
 

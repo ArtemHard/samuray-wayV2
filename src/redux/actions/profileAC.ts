@@ -1,3 +1,6 @@
+import { Dispatch } from "redux";
+import { profileApi } from "../../api/profileApi";
+
 export type ProfileReducerActionTypes =
   | ReturnType<typeof addPost>
   | ReturnType<typeof updatePosts>
@@ -19,4 +22,10 @@ export const setUserProfile = (profile: any) => {
     type: "SET-USER-PROFILE",
     profile,
   } as const;
+};
+
+export const getProfile = (userId: string) => (dispatch: Dispatch) => {
+  profileApi.getProfile(userId).then((data) => {
+    dispatch(setUserProfile(data));
+  });
 };
