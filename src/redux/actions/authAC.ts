@@ -16,7 +16,7 @@ export const setAuthUserData = (userData: userDataType) => {
 };
 
 export const getAuthUserData = () => (dispatch: Dispatch) => {
-  authApi.authMe().then((data) => {
+  authApi.authMe().then((data: any) => {
     console.log("here");
 
     if (data.resultCode === 0) {

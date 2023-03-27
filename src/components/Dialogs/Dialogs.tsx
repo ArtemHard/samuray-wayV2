@@ -3,14 +3,23 @@ import styled from "styled-components";
 import { DialogItem } from "./DialogItem";
 import { Message } from "./Message";
 import { messagesPageType } from "../../redux/store";
+import { WithRouterProps } from "../Profile/ProfileContainer/ProfileContainer";
+import { PropsForDialogs } from "./DialogsContainer";
 
 type StateType = {
   state: messagesPageType;
+  isAuth: boolean;
   onSendmessageClickkhandler: () => void;
   onNewMessageChange: (newMessage: string) => void;
 };
 
-export const Dialogs = (props: StateType) => {
+type DialogsPropsType = PropsForDialogs & WithRouterProps;
+export const Dialogs = (props: DialogsPropsType) => {
+  if (!props.isAuth) {
+    // debugger;
+    props.navigate("/login");
+  }
+
   const newMessageBody = props.state.newMessageText;
 
   const dialogs = props.state.dialogs.map((d) => {

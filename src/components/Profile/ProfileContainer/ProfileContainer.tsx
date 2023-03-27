@@ -1,6 +1,11 @@
 import { Component } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  redirect,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { getProfile } from "../../../redux/actions/profileAC";
 import { reducersType } from "../../../redux/redux-store";
 import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
@@ -37,6 +42,7 @@ export interface WithRouterProps {
   location: ReturnType<typeof useLocation>;
   params: Record<string, string>;
   navigate: ReturnType<typeof useNavigate>;
+  redirect: (to: string) => void;
 }
 /*
 export function withRouter<ComponentProps>(
@@ -62,6 +68,7 @@ export const withRouter2 = <Props extends WithRouterProps>(
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
+    const toRedirect = (to: string) => redirect(to);
 
     return (
       <Component
@@ -69,6 +76,7 @@ export const withRouter2 = <Props extends WithRouterProps>(
         location={location}
         params={params}
         navigate={navigate}
+        redirect={toRedirect}
       />
     );
   };
