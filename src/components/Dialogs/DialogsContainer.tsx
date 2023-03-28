@@ -4,14 +4,14 @@ import {
   sendMessageAC,
   updateNewMessageBodyCreatorAC,
 } from "../../redux/dialogs-reducer";
-import { connect, ConnectedProps, ConnectedComponent } from "react-redux";
-import { Dispatch } from "redux";
+import { connect, ConnectedProps } from "react-redux";
+import { compose, Dispatch } from "redux";
 import { reducersType } from "../../redux/redux-store";
 
 import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
-import { compose } from "redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+
 import { withRouter } from "../../hocs/withRouter";
+import { ComponentType } from "react";
 
 type MapStateToPropsType = {
   state: messagesPageType;
@@ -51,15 +51,14 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchToPropsType => {
 
 // export type AuthAndRouterTypes = AuthPropsType & WithRouterType;
 
+const authRedirectComponent = WithAuthRedirectComponent(Dialogs);
 // const withRouterDialogsComponent = withRouter2(authRedirectDialogsComponent)
 
-export type ForDialogsProps = ConnectedProps<typeof connected>;
-const connected = connect(mapStateToProps, mapDispatchToProps);
+export type ForDialogsProps = ConnectedProps<typeof connector>;
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
-// export const DialogsContainer = connected(withRouter2(authRedirectComponent));
-export const DialogsContainer = compose(
-  connected,
-  withRouter,
+export default compose<ComponentType>(
+  connector,
   WithAuthRedirectComponent
 )(Dialogs);
 

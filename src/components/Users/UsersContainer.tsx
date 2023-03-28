@@ -60,7 +60,7 @@ const mapStateToProps = (state: reducersType): MapStateToPropsType => {
     followingInProgress: state.usersPage.followingInProgress,
   };
 };
-const authRedirectComponent = WithAuthRedirectComponent(UsersContainer);
+
 const connector = connect(mapStateToProps, {
   follow,
   unFollow,
@@ -69,4 +69,4 @@ const connector = connect(mapStateToProps, {
 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-export default connector(authRedirectComponent);
+export default connector(UsersContainer);

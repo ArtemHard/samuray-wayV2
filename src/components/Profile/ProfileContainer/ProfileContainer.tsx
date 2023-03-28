@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, ComponentType } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import {
   redirect,
@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import { compose } from "redux";
 import { WithAuthRedirectComponent } from "../../../hocs/withAuthRedirectComponent";
-import { withRouter, WithRouterProps } from "../../../hocs/withRouter";
 import { getProfile } from "../../../redux/actions/profileAC";
 import { reducersType } from "../../../redux/redux-store";
 import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
@@ -59,12 +58,41 @@ export function withRouter<ComponentProps>(
 */
 // withRouter(ProfileContainer);
 
+export interface WithRouterProps {
+  location: ReturnType<typeof useLocation>;
+  params: Record<string, string>;
+  navigate: ReturnType<typeof useNavigate>;
+  // redirect: ReturnType<typeof redirect>;
+}
+
+export const withRouter2 = <Props extends WithRouterProps>(
+  Component: React.ComponentType<Props>
+) => {
+  return (props: Omit<Props, keyof WithRouterProps>) => {
+    const location = useLocation();
+    const params = useParams();
+    const navigate = useNavigate();
+    // const toRedirect = (to: string) => redirect(to);
+
+    return (
+      <Component
+        {...(props as Props)}
+        location={location}
+        params={params}
+        navigate={navigate}
+        // redirect={toRedirect}
+      />
+    );
+  };
+};
+export type WithRouterType = ReturnType<typeof withRouter2>;
+
 type PropsFromRedux = ConnectedProps<typeof connector>;
 const connector = connect(mapStateToProps, {
   getProfile,
 });
-export default compose(
+export default compose<ComponentType>(
   connector,
-  withRouter,
+  withRouter2,
   WithAuthRedirectComponent
 )(ProfileContainer);
