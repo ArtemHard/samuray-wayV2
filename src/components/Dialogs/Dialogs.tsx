@@ -3,13 +3,10 @@ import styled from "styled-components";
 import { DialogItem } from "./DialogItem";
 import { Message } from "./Message";
 import { messagesPageType } from "../../redux/store";
-import {
-  WithRouterProps,
-  WithRouterType,
-} from "../Profile/ProfileContainer/ProfileContainer";
 
 import { useNavigate } from "react-router-dom";
 import { ForDialogsProps } from "./DialogsContainer";
+import { WithRouterProps } from "../../hocs/withRouter";
 
 type StateType = {
   state: messagesPageType;

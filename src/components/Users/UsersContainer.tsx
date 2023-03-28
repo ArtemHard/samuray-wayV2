@@ -11,6 +11,7 @@ import {
 import { Users } from "./Users";
 import React from "react";
 import { Loader } from "../common/Loader/Loader";
+import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
 
 type UsersContainerPropsType = PropsFromRedux;
 
@@ -59,7 +60,7 @@ const mapStateToProps = (state: reducersType): MapStateToPropsType => {
     followingInProgress: state.usersPage.followingInProgress,
   };
 };
-
+const authRedirectComponent = WithAuthRedirectComponent(UsersContainer);
 const connector = connect(mapStateToProps, {
   follow,
   unFollow,
@@ -68,4 +69,4 @@ const connector = connect(mapStateToProps, {
 });
 
 type PropsFromRedux = ConnectedProps<typeof connector>;
-export default connector(UsersContainer);
+export default connector(authRedirectComponent);

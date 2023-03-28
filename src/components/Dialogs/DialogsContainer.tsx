@@ -7,13 +7,11 @@ import {
 import { connect, ConnectedProps, ConnectedComponent } from "react-redux";
 import { Dispatch } from "redux";
 import { reducersType } from "../../redux/redux-store";
-import {
-  withRouter2,
-  WithRouterType,
-} from "../Profile/ProfileContainer/ProfileContainer";
+
 import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
 import { compose } from "redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { withRouter } from "../../hocs/withRouter";
 
 type MapStateToPropsType = {
   state: messagesPageType;
@@ -53,13 +51,17 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchToPropsType => {
 
 // export type AuthAndRouterTypes = AuthPropsType & WithRouterType;
 
-const authRedirectComponent = WithAuthRedirectComponent(Dialogs);
 // const withRouterDialogsComponent = withRouter2(authRedirectDialogsComponent)
 
 export type ForDialogsProps = ConnectedProps<typeof connected>;
 const connected = connect(mapStateToProps, mapDispatchToProps);
 
-export const DialogsContainer = connected(withRouter2(authRedirectComponent));
+// export const DialogsContainer = connected(withRouter2(authRedirectComponent));
+export const DialogsContainer = compose(
+  connected,
+  withRouter,
+  WithAuthRedirectComponent
+)(Dialogs);
 
 // third solution
 /*
