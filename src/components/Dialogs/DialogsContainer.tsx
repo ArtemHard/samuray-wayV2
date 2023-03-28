@@ -11,12 +11,9 @@ import {
   withRouter2,
   WithRouterType,
 } from "../Profile/ProfileContainer/ProfileContainer";
-import {
-  AuthPropsType,
-  WithAuthRedirectComponent,
-} from "../../hocs/withAuthRedirectComponent";
+import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
 import { compose } from "redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 type MapStateToPropsType = {
   state: messagesPageType;
@@ -56,16 +53,13 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchToPropsType => {
 
 // export type AuthAndRouterTypes = AuthPropsType & WithRouterType;
 
-export type PropsForDialogs = ConnectedProps<typeof connector2>;
+const authRedirectComponent = WithAuthRedirectComponent(Dialogs);
+// const withRouterDialogsComponent = withRouter2(authRedirectDialogsComponent)
 
-// connector даёт type NEVER
-const connector = compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  WithAuthRedirectComponent
-);
-const connector2 = connect(mapStateToProps, mapDispatchToProps);
+export type ForDialogsProps = ConnectedProps<typeof connected>;
+const connected = connect(mapStateToProps, mapDispatchToProps);
 
-export const DialogsContainer = connector(withRouter2(Dialogs));
+export const DialogsContainer = connected(withRouter2(authRedirectComponent));
 
 // third solution
 /*

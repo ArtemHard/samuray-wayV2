@@ -39,12 +39,6 @@ const mapStateToProps = (state: reducersType): mapStateToPropsType => {
   };
 };
 
-export interface WithRouterProps {
-  location: ReturnType<typeof useLocation>;
-  params: Record<string, string>;
-  navigate: ReturnType<typeof useNavigate>;
-  // redirect: ReturnType<typeof redirect>;
-}
 /*
 export function withRouter<ComponentProps>(
   Component: React.ComponentType<ComponentProps>
@@ -61,6 +55,13 @@ export function withRouter<ComponentProps>(
 }
 */
 // withRouter(ProfileContainer);
+
+export interface WithRouterProps {
+  location: ReturnType<typeof useLocation>;
+  params: Record<string, string>;
+  navigate: ReturnType<typeof useNavigate>;
+  // redirect: ReturnType<typeof redirect>;
+}
 
 export const withRouter2 = <Props extends WithRouterProps>(
   Component: React.ComponentType<Props>

@@ -9,7 +9,7 @@ import {
 } from "../Profile/ProfileContainer/ProfileContainer";
 
 import { useNavigate } from "react-router-dom";
-import { PropsForDialogs } from "./DialogsContainer";
+import { ForDialogsProps } from "./DialogsContainer";
 
 type StateType = {
   state: messagesPageType;
@@ -18,10 +18,9 @@ type StateType = {
   onNewMessageChange: (newMessage: string) => void;
 };
 
-// type DialogsPropsType = PropsForDialogs & WithRouterProps;
-export const Dialogs = (props: any) => {
+type DialogsPropsType = ForDialogsProps & WithRouterProps;
+export const Dialogs = (props: DialogsPropsType) => {
   const newMessageBody = props.state.newMessageText;
-
   const dialogs = props.state.dialogs.map((d: any) => {
     return <DialogItem name={d.name} key={d.id} id={d.id} />;
   });
