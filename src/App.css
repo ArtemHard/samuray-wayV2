@@ -3,6 +3,7 @@
 /*}*/
 
 .AppWrapper{
+  overflow: hidden;
 display: grid;
   grid-template-rows: 0.3fr 5fr 2fr;
   grid-template-columns: 1fr 5fr ;
@@ -24,7 +25,7 @@ display: grid;
 
 .MainContent{
   grid-area: m;
-  //background-color: lightskyblue;
+ /* background-color: lightskyblue; */
 }
 
 .Footer{

@@ -1,9 +1,14 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import styled from "styled-components";
 import { DialogItem } from "./DialogItem";
 import { Message } from "./Message";
 import { messagesPageType } from "../../redux/store";
-import { WithRouterProps } from "../Profile/ProfileContainer/ProfileContainer";
+import {
+  WithRouterProps,
+  WithRouterType,
+} from "../Profile/ProfileContainer/ProfileContainer";
+
+import { useNavigate } from "react-router-dom";
 import { PropsForDialogs } from "./DialogsContainer";
 
 type StateType = {
@@ -13,19 +18,14 @@ type StateType = {
   onNewMessageChange: (newMessage: string) => void;
 };
 
-type DialogsPropsType = PropsForDialogs & WithRouterProps;
-export const Dialogs = (props: DialogsPropsType) => {
-  if (!props.isAuth) {
-    // debugger;
-    props.navigate("/login");
-  }
-
+// type DialogsPropsType = PropsForDialogs & WithRouterProps;
+export const Dialogs = (props: any) => {
   const newMessageBody = props.state.newMessageText;
 
-  const dialogs = props.state.dialogs.map((d) => {
+  const dialogs = props.state.dialogs.map((d: any) => {
     return <DialogItem name={d.name} key={d.id} id={d.id} />;
   });
-  const messages = props.state.messages.map((m) => {
+  const messages = props.state.messages.map((m: any) => {
     return <Message key={m.id} message={m.message} />;
   });
 
