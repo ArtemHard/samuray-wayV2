@@ -1,16 +1,51 @@
-import style from "./ProfileInfo.module.css";
+import React from "react";
+import styled from "styled-components";
+import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
+import { Loader } from "../../common/Loader/Loader";
+import { ProfileStatus } from "./ProfileStatus";
 
-export const ProfileInfo = () => {
+type ProfileInfoPropsType = {
+  profile: ProfileType | null;
+};
+
+export const ProfileInfo = ({ profile }: ProfileInfoPropsType) => {
+  if (!profile) {
+    return <Loader />;
+  }
   return (
-    <div>
+    <Wrapper>
+      <img
+        src='https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png'
+        alt='ava'
+      />
+
       <div>
-        <img
-          className={style.img}
-          src='https://store-images.s-microsoft.com/image/apps.4083.14191174512742283.25b58903-5b4d-47c0-959c-c79a5aabf46c.17e473bf-b171-4bc5-b00e-f1a6f54977e1'
-          alt='forest'
-        />
+        <AvatarImg src={profile.photos.large} />
+        <ProfileStatus status='Hello leadys and gentelmens' />
       </div>
-      <div className={style["description-block"]}>ava + description</div>
-    </div>
+      <div>
+        <div>
+          <b>{profile.fullName}</b>
+        </div>
+        <div>{profile.aboutMe}</div>
+        <div>{profile.contacts.vk}</div>
+      </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  //margin-top: 50px;
+  & > img {
+    width: 50px;
+  }
+`;
+type AvatarImgPropsType = {
+  src: string;
+};
+const AvatarImg = styled.img.attrs<AvatarImgPropsType>((props) => ({
+  src: props.src,
+}))`
+  width: 300px;
+  object-fit: cover;
+`;
