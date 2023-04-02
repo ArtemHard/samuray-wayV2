@@ -40,11 +40,15 @@ export const getProfile = (userId: string) => (dispatch: Dispatch) => {
 
 export const getStatus = (userId: string) => (dispatch: Dispatch) => {
   profileApi.getStatus(userId).then((data) => {
-    if (data) dispatch(setStatus(data.data));
+    console.log(data);
+
+    if (data) dispatch(setStatus(data));
   });
 };
 export const updateStatus = (newStatus: string) => (dispatch: Dispatch) => {
   profileApi.updateStatus(newStatus).then((data) => {
-    if (data.resultCode === 0) dispatch(setStatus(data.data));
+    console.log(data);
+
+    if (data.resultCode === 0) dispatch(setStatus(newStatus));
   });
 };

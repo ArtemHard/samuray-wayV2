@@ -27,11 +27,7 @@ type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
 
 export class ProfileContainer extends Component<ProfileContainerPropsType> {
   componentDidMount(): void {
-    // let location = this.props.location;
-    console.log(this.props);
-
     let { userId } = this.props.params;
-    console.log(userId);
 
     this.props.getProfile(userId);
     this.props.getStatus(userId);

@@ -6,9 +6,11 @@ export const profileApi = {
       .then((response) => response.data);
   },
   getStatus(userId: string) {
-    return instance.get("profile/status/" + userId).then((response) => {
-      return response.data;
-    });
+    return instance
+      .get("profile/status/" + generateUserId(userId))
+      .then((response) => {
+        return response.data;
+      });
   },
   updateStatus(status: string) {
     return instance
@@ -19,4 +21,4 @@ export const profileApi = {
   },
 };
 
-const generateUserId = (userId?: string) => (userId ? userId : "2");
+const generateUserId = (userId?: string) => (userId ? userId : "28053");

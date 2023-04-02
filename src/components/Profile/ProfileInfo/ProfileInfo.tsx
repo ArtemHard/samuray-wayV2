@@ -25,7 +25,7 @@ export const ProfileInfo = ({
 
       <div>
         <AvatarImg src={profile.photos.large} />
-        <ProfileStatus status={status} />
+        <ProfileStatus status={status} updateStatus={updateStatus} />
       </div>
       <div>
         <div>

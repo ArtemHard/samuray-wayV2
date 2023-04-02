@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 type ProfileStatusPropsType = {
   status: string;
+  updateStatus: (newStatus: string) => void;
 };
 
 export class ProfileStatus extends Component<ProfileStatusPropsType> {
-  statusInputRef = React.createRef();
   state = {
     editMode: false,
     status: this.props.status,
@@ -17,12 +17,15 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
     });
   };
   dectivateEditMode = () => {
-    console.log("this", this);
-
     this.setState({
       editMode: false,
     });
-    // this.props.updateStatus(this.statusInputRef.current.value)
+    this.props.updateStatus(this.state.status);
+  };
+  onStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({
+      status: e.currentTarget.value,
+    });
   };
   render() {
     return (
@@ -30,7 +33,7 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
         {!this.state.editMode && (
           <div>
             <span onDoubleClick={this.activateEditMode}>
-              {this.props.status ? this.props.status : "status doesnt exist"}
+              {this.props.status || "status doesnt exist"}
             </span>
           </div>
         )}
@@ -38,8 +41,10 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
           <div>
             <input
               // ref={this.statusInputRef}
+              onChange={this.onStatusChange}
+              autoFocus={true}
               onBlur={this.dectivateEditMode}
-              value={this.props.status}
+              value={this.state.status}
             />
           </div>
         )}
