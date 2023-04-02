@@ -5,11 +5,13 @@ import { profilePageType } from "../../redux/profile-reducer";
 import { ProfileType } from "../../redux/types/reducersTypes/profileReducerType";
 import { AnyAction, Dispatch } from "redux";
 
-type ProfilePropsType = {
+export type ProfilePropsType = {
   profile: ProfileType | null;
+  status: string;
+  updateStatus: (newStatus: string) => void;
 };
 
-export const Profile = ({ profile }: ProfilePropsType) => {
+export const Profile = (props: ProfilePropsType) => {
   return (
     <div className={"MainContent"}>
       <ul>
@@ -18,7 +20,7 @@ export const Profile = ({ profile }: ProfilePropsType) => {
         <li>TS</li>
         <li>REACT</li>
       </ul>
-      <ProfileInfo profile={profile} />
+      <ProfileInfo {...props} />
 
       <MyPostsContainer
       //state={props.profilePage}

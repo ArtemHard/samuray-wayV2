@@ -8,6 +8,7 @@ export type profilePageType = {
   posts: PostType[];
   newPostText: string;
   profile: ProfileType | null;
+  status: string;
 };
 let initialState: profilePageType = {
   posts: [
@@ -24,6 +25,7 @@ let initialState: profilePageType = {
   ],
   newPostText: "",
   profile: null,
+  status: "",
 };
 
 export const ProfileReducer = (
@@ -50,6 +52,9 @@ export const ProfileReducer = (
 
     case "SET-USER-PROFILE": {
       return { ...state, profile: action.profile };
+    }
+    case "SET-USER-STATUS": {
+      return { ...state, status: action.status };
     }
     default:
       return state;

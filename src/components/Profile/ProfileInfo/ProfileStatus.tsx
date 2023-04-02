@@ -5,33 +5,40 @@ type ProfileStatusPropsType = {
 };
 
 export class ProfileStatus extends Component<ProfileStatusPropsType> {
+  statusInputRef = React.createRef();
   state = {
     editMode: false,
+    status: this.props.status,
   };
+
   activateEditMode = () => {
     this.setState({
       editMode: true,
     });
   };
   dectivateEditMode = () => {
+    console.log("this", this);
+
     this.setState({
       editMode: false,
     });
+    // this.props.updateStatus(this.statusInputRef.current.value)
   };
   render() {
     return (
       <div>
         {!this.state.editMode && (
           <div>
-            <span onDoubleClick={this.activateEditMode.bind(this)}>
-              {this.props.status}
+            <span onDoubleClick={this.activateEditMode}>
+              {this.props.status ? this.props.status : "status doesnt exist"}
             </span>
           </div>
         )}
         {this.state.editMode && (
           <div>
             <input
-              onBlur={this.dectivateEditMode.bind(this)}
+              // ref={this.statusInputRef}
+              onBlur={this.dectivateEditMode}
               value={this.props.status}
             />
           </div>

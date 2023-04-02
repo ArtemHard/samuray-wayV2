@@ -3,12 +3,16 @@ import styled from "styled-components";
 import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Loader } from "../../common/Loader/Loader";
 import { ProfileStatus } from "./ProfileStatus";
+import { log } from "console";
+import { ProfilePropsType } from "../Profile";
 
-type ProfileInfoPropsType = {
-  profile: ProfileType | null;
-};
+export const ProfileInfo = ({
+  profile,
+  status,
+  updateStatus,
+}: ProfilePropsType) => {
+  console.log(status);
 
-export const ProfileInfo = ({ profile }: ProfileInfoPropsType) => {
   if (!profile) {
     return <Loader />;
   }
@@ -21,7 +25,7 @@ export const ProfileInfo = ({ profile }: ProfileInfoPropsType) => {
 
       <div>
         <AvatarImg src={profile.photos.large} />
-        <ProfileStatus status='Hello leadys and gentelmens' />
+        <ProfileStatus status={status} />
       </div>
       <div>
         <div>
