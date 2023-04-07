@@ -32,8 +32,7 @@ const mapStateToProps = (state: reducersType): MapStateToProps => {
 //   };
 // };
 
-let MyPostsContainer = connect(mapStateToProps, {
+const MyPostsContainer = connect(mapStateToProps, {
   addPost,
-  onPostChange: updatePosts,
 })(MyPosts);
 export default MyPostsContainer;

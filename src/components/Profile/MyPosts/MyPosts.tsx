@@ -2,12 +2,12 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import { PostType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Post } from "./Post/Post";
+import { CommonForm } from "../../../common/CommonForm";
 
 type PostsType = {
   posts: PostType[];
-  onPostChange: (newText: string) => void;
   newPostText: string;
-  addPost: () => void;
+  addPost: (newPostText: string) => void;
 };
 
 export const MyPosts = (props: PostsType) => {
@@ -16,24 +16,11 @@ export const MyPosts = (props: PostsType) => {
       <Post key={post.id} message={post.message} likesCount={post.likesCount} />
     );
   });
-  let newPostElement = useRef<HTMLTextAreaElement>(null);
-
-  const onChangeHandler = () => {
-    if (newPostElement.current) {
-      let newText = newPostElement.current.value;
-      props.onPostChange(newText);
-      newPostElement.current.value = "";
-    }
-  };
-
-  const addPostHandler = () => {
-    props.addPost();
-  };
 
   return (
     <MyPostsWrapper>
       <div>MyPosts</div>
-      <textarea
+      {/* <textarea
         cols={30}
         rows={10}
         ref={newPostElement}
@@ -43,7 +30,8 @@ export const MyPosts = (props: PostsType) => {
       <div>
         <button onClick={addPostHandler}>add post</button>
         <button>remove post</button>
-      </div>
+      </div> */}
+      <CommonForm onSubmitHandler={props.addPost} textArea={true} />
       {posts}
     </MyPostsWrapper>
   );

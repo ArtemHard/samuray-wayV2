@@ -1,6 +1,7 @@
-import React from "react";
 import { useForm } from "react-hook-form";
-import { connect } from "react-redux";
+import { signInObjType } from "../../api/authApi";
+import { useAppDispatch } from "../../hooks/reduxHooks";
+import { signInUser } from "../../redux/actions/authAC";
 
 export const Login = () => {
   return (
@@ -11,34 +12,32 @@ export const Login = () => {
   );
 };
 
-type FormData = {
-  login: string;
-  password: string;
-  rememberMe: boolean;
-};
-type LoginFormPropsType = {
-  login: string;
-  password: string;
-  updateAction: (data: FormData) => void;
-};
+// type LoginFormPropsType = {
+//   email: string;
+//   password: string;
+//   updateAction: (data: FormData) => void;
+// };
 
 const LoginForm = () => {
+  const dispatch = useAppDispatch();
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<signInObjType>();
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    dispatch(signInUser(data));
+    // authApi.signIn(data);
+    // console.log(data);
     reset();
   });
   // const onSubmit = data => props.updateAction(data);
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <input {...register("login", { required: true })} />
+        <input {...register("email", { required: true })} />
       </div>
       <div>
         <input {...register("password", { required: true })} />

@@ -2,14 +2,12 @@ import {
   DialogsType,
   MessageType,
 } from "./types/reducersTypes/dialogsReducerTypes";
-
 const SEND_MESSAGE = "ADD-NEWPOSTTEXT";
 const UPDATE_NEWPOSTTEXT = "UPDATE-NEWPOSTTEXT";
 
 export type messagesPageType = {
   messages: MessageType[];
   dialogs: DialogsType[];
-  newMessageText: string;
 };
 
 let initialState: messagesPageType = {
@@ -41,7 +39,6 @@ let initialState: messagesPageType = {
       message: "Hellow",
     },
   ],
-  newMessageText: "",
 };
 
 export const DialogsReducer = (
@@ -51,36 +48,23 @@ export const DialogsReducer = (
   switch (action.type) {
     case SEND_MESSAGE: {
       let newPostText = {
-        id: 684,
-        message: state.newMessageText,
+        id: Date.now(),
+        message: action.newMessageBody,
       };
       return {
         ...state,
         messages: [...state.messages, newPostText],
-        newMessageText: "",
       };
-    }
-
-    case UPDATE_NEWPOSTTEXT: {
-      const stateCopy = { ...state, newMessageText: action.newMessageText };
-      return stateCopy;
     }
     default:
       return state;
   }
 };
 
-type ActionTypes =
-  | ReturnType<typeof sendMessageAC>
-  | ReturnType<typeof updateNewMessageBodyCreatorAC>;
-export const sendMessageAC = () => {
+type ActionTypes = ReturnType<typeof sendMessageAC>;
+export const sendMessageAC = (newMessageBody: string) => {
   return {
     type: SEND_MESSAGE,
-  } as const;
-};
-export const updateNewMessageBodyCreatorAC = (text: string) => {
-  return {
-    type: UPDATE_NEWPOSTTEXT,
-    newMessageText: text,
+    newMessageBody,
   } as const;
 };

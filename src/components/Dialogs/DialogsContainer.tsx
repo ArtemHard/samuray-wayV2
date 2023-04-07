@@ -1,16 +1,11 @@
 import { Dialogs } from "./Dialogs";
-import {
-  messagesPageType,
-  sendMessageAC,
-  updateNewMessageBodyCreatorAC,
-} from "../../redux/dialogs-reducer";
+import { messagesPageType, sendMessageAC } from "../../redux/dialogs-reducer";
 import { connect, ConnectedProps } from "react-redux";
 import { compose, Dispatch } from "redux";
 import { reducersType } from "../../redux/redux-store";
 
 import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
 
-import { withRouter } from "../../hocs/withRouter";
 import { ComponentType } from "react";
 
 type MapStateToPropsType = {
@@ -25,16 +20,12 @@ const mapStateToProps = (state: reducersType): MapStateToPropsType => {
 };
 
 type DispatchToPropsType = {
-  onSendmessageClickkhandler: () => void;
-  onNewMessageChange: (newMessage: string) => void;
+  onSendmessageClickkhandler: (newMessageBody: string) => void;
 };
 const mapDispatchToProps = (dispatch: Dispatch): DispatchToPropsType => {
   return {
-    onSendmessageClickkhandler: () => {
-      dispatch(sendMessageAC());
-    },
-    onNewMessageChange: (newMessage: string) => {
-      dispatch(updateNewMessageBodyCreatorAC(newMessage));
+    onSendmessageClickkhandler: (newMessageBody: string) => {
+      dispatch(sendMessageAC(newMessageBody));
     },
   };
 };
@@ -51,7 +42,6 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchToPropsType => {
 
 // export type AuthAndRouterTypes = AuthPropsType & WithRouterType;
 
-const authRedirectComponent = WithAuthRedirectComponent(Dialogs);
 // const withRouterDialogsComponent = withRouter2(authRedirectDialogsComponent)
 
 export type ForDialogsProps = ConnectedProps<typeof connector>;

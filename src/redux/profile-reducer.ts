@@ -35,14 +35,14 @@ export const ProfileReducer = (
   switch (action.type) {
     case "ADD-POST":
       let newPost = {
-        id: 3,
-        message: state.newPostText,
+        id: Date.now(),
+        message: action.newPostText,
         likesCount: 0,
       };
 
       return {
         ...state,
-        posts: [...state.posts, newPost],
+        posts: [newPost, ...state.posts],
         newPostText: "",
       };
 

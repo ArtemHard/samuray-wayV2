@@ -7,9 +7,10 @@ export type ProfileReducerActionTypes =
   | ReturnType<typeof setUserProfile>
   | ReturnType<typeof setStatus>;
 
-export const addPost = () => {
+export const addPost = (newPostText: string) => {
   return {
     type: "ADD-POST",
+    newPostText,
   } as const;
 };
 export const updatePosts = (text: string) => {

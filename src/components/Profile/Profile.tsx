@@ -22,9 +22,7 @@ export const Profile = (props: ProfilePropsType) => {
       </ul>
       <ProfileInfo {...props} />
 
-      <MyPostsContainer
-      //state={props.profilePage}
-      />
+      <MyPostsContainer />
     </div>
   );
 };

@@ -1,7 +1,9 @@
 import { Dispatch } from "redux";
-import { authApi } from "../../api/authApi";
+import { authApi, signInObjType } from "../../api/authApi";
 import { AuthInitialStateType } from "../reducers/auth-reducer";
 import { toggleIsFetching } from "../users-reducer";
+import { log } from "console";
+import { profileApi } from "../../api/profileApi";
 
 export type userAuthActionTypes =
   | ReturnType<typeof setAuthUserData>
@@ -17,16 +19,26 @@ export const setAuthUserData = (userData: userDataType) => {
 
 export const getAuthUserData = () => (dispatch: Dispatch) => {
   authApi.authMe().then((data: any) => {
-    console.log("here");
-
     if (data.resultCode === 0) {
-      console.log(data);
-
       const { id, login, email, isAuth } = data.data;
       dispatch(setAuthUserData({ id, login, email, isAuth }));
     }
     if (data.resultCode === 1) {
       console.warn("NOT AUTHORIZED");
+    }
+  });
+};
+
+export const signInUser = (data: signInObjType) => (dispatch: Dispatch) => {
+  authApi.signIn(data).then((data) => {
+    const userId = data.data.userId;
+    if (data.resultCode === 0 && userId) {
+      console.warn("Here need to put data anywere to state");
+
+      // dispatch(setAuthUserData(data.data.userId))
+    }
+    if (data.resultCode === 1) {
+      console.error("Login Error");
     }
   });
 };

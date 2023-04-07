@@ -9,4 +9,20 @@ export const authApi = {
     //   },
     // });
   },
+  async signIn(data: signInObjType) {
+    return instance
+      .post<SignInResponseType>("auth/login", data)
+      .then((response) => response.data);
+  },
 };
+export type signInObjType = {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+};
+type SignInResponseType = {
+  data: userId;
+  messages: string[];
+  resultCode: number;
+};
+type userId = { userId?: number };
