@@ -35,6 +35,7 @@ export const Dialogs = (props: DialogsPropsType) => {
         <CommonForm
           onSubmitHandler={onSendmessageClickkhandler}
           textArea={false}
+          maxLength={20}
         />
       </Right>
     </Wrapper>

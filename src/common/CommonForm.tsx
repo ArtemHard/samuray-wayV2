@@ -7,11 +7,13 @@ type FormDataType = {
 type AddMessageFormMyPostsType = {
   onSubmitHandler: (newMessage: string) => void;
   textArea: boolean;
+  maxLength: number;
 };
 
 export const CommonForm = ({
   onSubmitHandler,
   textArea,
+  maxLength,
 }: AddMessageFormMyPostsType) => {
   const {
     register,
@@ -24,30 +26,46 @@ export const CommonForm = ({
     onSubmitHandler(data.newMessage);
     reset();
   };
+  console.log(errors.newMessage?.message);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div>
         {textArea ? (
           <textarea
+            style={borderColorForInput(errors.newMessage?.type)}
             cols={30}
             rows={10}
             placeholder={"Enter your message"}
             {...register("newMessage", {
-              required: true,
+              required: "Text is requierd",
+              maxLength: maxLength,
             })}
           />
         ) : (
           <input
+            style={borderColorForInput(errors.newMessage?.type)}
             placeholder={"Enter your message"}
             {...register("newMessage", {
-              required: true,
+              required: "Text is requierd",
+              maxLength: maxLength,
             })}
           />
         )}
-        {errors.newMessage && <div>{errors.newMessage?.message}</div>}
+        {errors.newMessage?.type === "required" && (
+          <div style={{ color: "red" }}>{errors.newMessage.message}</div>
+        )}
+        {errors.newMessage?.type === "maxLength" && (
+          <div style={{ color: "red" }}>{"Max " + maxLength + " symbols"}</div>
+        )}
       </div>
       <input type='submit' />
     </form>
   );
+};
+
+export const borderColorForInput = (errorsType: string | undefined) => {
+  if (errorsType === "required" || errorsType === "maxLength")
+    return { border: "2px solid red", outline: "none" };
+  else return {};
 };

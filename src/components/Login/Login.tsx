@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { signInObjType } from "../../api/authApi";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { signInUser } from "../../redux/actions/authAC";
+import { borderColorForInput } from "../../common/CommonForm";
 
 export const Login = () => {
   return (
@@ -37,15 +38,23 @@ const LoginForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <input {...register("email", { required: true })} />
+        <input
+          style={borderColorForInput(errors.email?.type)}
+          {...register("email", { required: true })}
+        />
       </div>
       <div>
-        <input {...register("password", { required: true })} />
+        <input
+          style={borderColorForInput(errors.password?.type)}
+          {...register("password", { required: true })}
+        />
       </div>
       <div>
         <input type='checkbox' {...register("rememberMe")} /> remeber me
       </div>
-      {errors.password && <span>This field is required</span>}
+      {errors.password && (
+        <span style={{ color: "red" }}>This field is required</span>
+      )}
       <div>
         <button>Login</button>
       </div>
