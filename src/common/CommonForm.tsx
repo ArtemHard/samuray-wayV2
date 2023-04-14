@@ -26,7 +26,6 @@ export const CommonForm = ({
     onSubmitHandler(data.newMessage);
     reset();
   };
-  console.log(errors.newMessage?.message);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

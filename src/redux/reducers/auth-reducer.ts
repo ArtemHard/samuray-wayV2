@@ -24,7 +24,7 @@ export const authReducer = (
     case "TOGGLE-IS-FETCHING":
       return { ...state, isFetching: action.isFetching };
     case "SET-AUTH-USER-DATA":
-      return { ...state, ...action.userData, isAuth: true };
+      return { ...state, ...action.userData, isAuth: action.userData.isAuth };
     default:
       return state;
   }

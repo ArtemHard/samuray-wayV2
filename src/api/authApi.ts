@@ -14,7 +14,13 @@ export const authApi = {
       .post<SignInResponseType>("auth/login", data)
       .then((response) => response.data);
   },
+  async logOut() {
+    return instance
+      .delete<SignInResponseType>("auth/login")
+      .then((response) => response.data);
+  },
 };
+
 export type signInObjType = {
   email: string;
   password: string;

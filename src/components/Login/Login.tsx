@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import { signInObjType } from "../../api/authApi";
-import { useAppDispatch } from "../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { signInUser } from "../../redux/actions/authAC";
 import { borderColorForInput } from "../../common/CommonForm";
+import { useNavigate } from "react-router-dom";
+import { selectorAuthisAuth } from "../../redux/selectors";
 
 export const Login = () => {
   return (
@@ -13,14 +15,10 @@ export const Login = () => {
   );
 };
 
-// type LoginFormPropsType = {
-//   email: string;
-//   password: string;
-//   updateAction: (data: FormData) => void;
-// };
-
 const LoginForm = () => {
   const dispatch = useAppDispatch();
+  const { isAuth } = useAppSelector(selectorAuthisAuth);
+  const navigate = useNavigate();
   const {
     register,
     reset,
@@ -30,11 +28,9 @@ const LoginForm = () => {
 
   const onSubmit = handleSubmit((data) => {
     dispatch(signInUser(data));
-    // authApi.signIn(data);
-    // console.log(data);
-    reset();
   });
-  // const onSubmit = data => props.updateAction(data);
+  if (isAuth) navigate("/profile");
+
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -45,6 +41,7 @@ const LoginForm = () => {
       </div>
       <div>
         <input
+          type='password'
           style={borderColorForInput(errors.password?.type)}
           {...register("password", { required: true })}
         />
@@ -61,3 +58,9 @@ const LoginForm = () => {
     </form>
   );
 };
+
+// type LoginFormPropsType = {
+//   email: string;
+//   password: string;
+//   updateAction: (data: FormData) => void;
+// };

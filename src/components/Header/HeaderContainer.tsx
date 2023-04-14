@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { getAuthUserData } from "../../redux/actions/authAC";
+import { getAuthUserData, logOut } from "../../redux/actions/authAC";
 import {
   selectorAuthEmail,
   selectorAuthId,
@@ -24,6 +24,10 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
 export const HeaderContainer = () => {
   const dispatch = useAppDispatch();
 
+  const logOutClickHandler = () => {
+    dispatch(logOut());
+  };
+
   useEffect(() => {
     dispatch(getAuthUserData());
   }, []);
@@ -41,6 +45,7 @@ export const HeaderContainer = () => {
       email={email}
       isAuth={isAuth}
       isFetching={isFetching}
+      logOutClickHandler={logOutClickHandler}
     />
   );
 };
