@@ -28,6 +28,11 @@ type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
 export class ProfileContainer extends Component<ProfileContainerPropsType> {
   componentDidMount(): void {
     let { userId } = this.props.params;
+    const authorizedUserId = this.props.authorizedUserId;
+
+    if (!userId && authorizedUserId) {
+      userId = authorizedUserId.toString();
+    }
 
     this.props.getProfile(userId);
     this.props.getStatus(userId);
@@ -41,11 +46,15 @@ export class ProfileContainer extends Component<ProfileContainerPropsType> {
 type mapStateToPropsType = {
   profile: ProfileType | null;
   status: string;
+  authorizedUserId: number | null;
+  isAuth: boolean;
 };
 const mapStateToProps = (state: reducersType): mapStateToPropsType => {
   return {
     profile: state.profilePage.profile,
     status: state.profilePage.status,
+    authorizedUserId: state.auth.id,
+    isAuth: state.auth.isAuth,
   };
 };
 

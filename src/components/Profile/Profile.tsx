@@ -21,7 +21,6 @@ export const Profile = (props: ProfilePropsType) => {
         <li>REACT</li>
       </ul>
       <ProfileInfo {...props} />
-
       <MyPostsContainer />
     </div>
   );

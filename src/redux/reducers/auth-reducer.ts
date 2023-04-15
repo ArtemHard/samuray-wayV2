@@ -6,6 +6,7 @@ export interface AuthInitialStateType {
   email: string | null;
   isAuth: boolean;
   isFetching: boolean;
+  serverError: string[] | null;
 }
 
 let initialState: AuthInitialStateType = {
@@ -14,6 +15,7 @@ let initialState: AuthInitialStateType = {
   email: null,
   isAuth: false,
   isFetching: false,
+  serverError: null,
 };
 
 export const authReducer = (
@@ -25,6 +27,8 @@ export const authReducer = (
       return { ...state, isFetching: action.isFetching };
     case "SET-AUTH-USER-DATA":
       return { ...state, ...action.userData, isAuth: action.userData.isAuth };
+    case "SET-ERROR":
+      return { ...state, serverError: action.errors };
     default:
       return state;
   }

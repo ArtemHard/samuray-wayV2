@@ -25,3 +25,8 @@ export const selectorAuthisFetching = (state: reducersType) => {
     isFetching: state.auth.isFetching,
   } as const;
 };
+export const selectorAuthErrors = (state: reducersType) => {
+  return {
+    serverError: state.auth.serverError,
+  } as const;
+};

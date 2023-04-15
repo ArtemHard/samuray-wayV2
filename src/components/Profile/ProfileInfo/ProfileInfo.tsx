@@ -1,9 +1,6 @@
-import React from "react";
 import styled from "styled-components";
-import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Loader } from "../../common/Loader/Loader";
 import { ProfileStatus } from "./ProfileStatus";
-import { log } from "console";
 import { ProfilePropsType } from "../Profile";
 
 export const ProfileInfo = ({

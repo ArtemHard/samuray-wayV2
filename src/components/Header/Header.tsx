@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import { AuthInitialStateType } from "../../redux/reducers/auth-reducer";
 import { HeaderWrapper, ImgWrapper, LoginBlock } from "./Header.styled";
 
-type HeaderPropsType = AuthInitialStateType & HeaderCallbacks;
+type HeaderPropsType = HeaderCallbacks &
+  Omit<AuthInitialStateType, "serverError">;
 type HeaderCallbacks = {
   logOutClickHandler: () => void;
 };
