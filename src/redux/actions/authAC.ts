@@ -25,7 +25,7 @@ export const setErrorAuth = (errors: string[] | null) => {
 };
 
 export const getAuthUserData = () => (dispatch: Dispatch) => {
-  authApi.authMe().then((data: any) => {
+  return authApi.authMe().then((data: any) => {
     if (data.resultCode === 0) {
       const { id, login, email } = data.data;
       dispatch(

@@ -10,6 +10,7 @@ import { sidebarReducer } from "./sidebarReducer";
 import { usersReducer } from "./users-reducer";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
+import { appReducer } from "./reducers/app-reducer";
 
 const reducers = combineReducers({
   dialogsPage: DialogsReducer,
@@ -17,6 +18,7 @@ const reducers = combineReducers({
   usersPage: usersReducer,
   sidebar: sidebarReducer,
   auth: authReducer,
+  app: appReducer,
 });
 
 export type reducersType = ReturnType<typeof reducers>;

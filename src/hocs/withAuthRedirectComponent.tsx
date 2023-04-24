@@ -7,7 +7,6 @@ type mapStateToPropsType = {
 
 const mapStateToProps = (state: reducersType): mapStateToPropsType => {
   return {
-    // userProfile: state.profilePage.profile,
     isAuth: state.auth.isAuth,
   };
 };

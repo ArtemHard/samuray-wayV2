@@ -12,6 +12,14 @@ import { Users } from "./Users";
 import React from "react";
 import { Loader } from "../common/Loader/Loader";
 import { WithAuthRedirectComponent } from "../../hocs/withAuthRedirectComponent";
+import {
+  getSelectorCurrentPage,
+  getSelectorFollowingInProgress,
+  getSelectorIsFetching,
+  getSelectorPageSize,
+  getSelectorTotalUsersCount,
+  getSelectorUsers,
+} from "../../redux/selectors";
 
 type UsersContainerPropsType = PropsFromRedux;
 
@@ -52,12 +60,12 @@ type MapStateToPropsType = {
 };
 const mapStateToProps = (state: reducersType): MapStateToPropsType => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getSelectorUsers(state),
+    pageSize: getSelectorPageSize(state),
+    totalUsersCount: getSelectorTotalUsersCount(state),
+    currentPage: getSelectorCurrentPage(state),
+    isFetching: getSelectorIsFetching(state),
+    followingInProgress: getSelectorFollowingInProgress(state),
   };
 };
 

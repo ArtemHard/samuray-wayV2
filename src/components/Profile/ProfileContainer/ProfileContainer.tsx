@@ -1,11 +1,6 @@
 import { Component, ComponentType } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import {
-  redirect,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { compose } from "redux";
 import { WithAuthRedirectComponent } from "../../../hocs/withAuthRedirectComponent";
 import {
@@ -17,11 +12,6 @@ import { reducersType } from "../../../redux/redux-store";
 import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
 import { Profile } from "../Profile";
 import { withRouter } from "../../../hocs/withRouter";
-
-// interface ProfileContainerPropsType extends WithRouterProps {
-//   profile: ProfileType | null;
-//   setUserProfile: (data: any) => void;
-// }
 
 type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
 
@@ -58,28 +48,10 @@ const mapStateToProps = (state: reducersType): mapStateToPropsType => {
   };
 };
 
-/*
-export function withRouter<ComponentProps>(
-  Component: React.ComponentType<ComponentProps>
-) {
-  function ComponentWithRouterProp(props: ComponentProps) {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const params = useParams();
-
-    return <Component {...props} router={{ location, navigate, params }} />;
-  }
-
-  return ComponentWithRouterProp;
-}
-*/
-// withRouter(ProfileContainer);
-
 export interface WithRouterProps {
   location: ReturnType<typeof useLocation>;
   params: Record<string, string>;
   navigate: ReturnType<typeof useNavigate>;
-  // redirect: ReturnType<typeof redirect>;
 }
 
 export const withRouter2 = <Props extends WithRouterProps>(
@@ -89,7 +61,6 @@ export const withRouter2 = <Props extends WithRouterProps>(
     const location = useLocation();
     const params = useParams();
     const navigate = useNavigate();
-    // const toRedirect = (to: string) => redirect(to);
 
     return (
       <Component
@@ -97,7 +68,6 @@ export const withRouter2 = <Props extends WithRouterProps>(
         location={location}
         params={params}
         navigate={navigate}
-        // redirect={toRedirect}
       />
     );
   };

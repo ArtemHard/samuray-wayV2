@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { getAuthUserData, logOut } from "../../redux/actions/authAC";
 import {
@@ -11,16 +10,6 @@ import {
 } from "../../redux/selectors";
 import { Header } from "./Header";
 
-/*
-export type HeaderDispatchProps = ReturnType<typeof mapDispatchToProps>;
-const mapDispatchToProps = (dispatch: Dispatch<any>) => {
-  return {
-    setAuthUserData: (userData: userDataType) =>
-      dispatch(setAuthUserData(userData)),
-    toggleIsFetching: () => dispatch(toggleIsFetching),
-  } as const;
-};
-*/
 export const HeaderContainer = () => {
   const dispatch = useAppDispatch();
 

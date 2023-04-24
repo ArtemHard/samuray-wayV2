@@ -1,3 +1,4 @@
+import { createSelector } from "reselect";
 import { reducersType } from "./redux-store";
 
 export const selectorAuthId = (state: reducersType) => {
@@ -30,3 +31,39 @@ export const selectorAuthErrors = (state: reducersType) => {
     serverError: state.auth.serverError,
   } as const;
 };
+
+export const selectorAppInitialized = (state: reducersType) => {
+  return {
+    initialized: state.app.initialized,
+  };
+};
+
+// UsersSelectors
+
+export const getSelectorUsers = (state: reducersType) => {
+  return state.usersPage.users;
+};
+
+export const getSelectorPageSize = (state: reducersType) => {
+  return state.usersPage.pageSize;
+};
+export const getSelectorTotalUsersCount = (state: reducersType) => {
+  return state.usersPage.totalUsersCount;
+};
+export const getSelectorCurrentPage = (state: reducersType) => {
+  return state.usersPage.currentPage;
+};
+export const getSelectorIsFetching = (state: reducersType) => {
+  return state.usersPage.isFetching;
+};
+export const getSelectorFollowingInProgress = (state: reducersType) => {
+  return state.usersPage.followingInProgress;
+};
+
+export const getUsersSuper = createSelector(
+  getSelectorUsers,
+  getSelectorIsFetching,
+  (users, isFetching) => {
+    users.filter((u) => true);
+  }
+);
