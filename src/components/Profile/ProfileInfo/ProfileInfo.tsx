@@ -8,31 +8,29 @@ export const ProfileInfo = ({
   status,
   updateStatus,
 }: ProfilePropsType) => {
-  console.log(status);
-
   if (!profile) {
     return <Loader />;
-  }
-  return (
-    <Wrapper>
-      <img
-        src='https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png'
-        alt='ava'
-      />
+  } else
+    return (
+      <Wrapper>
+        <img
+          src='https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png'
+          alt='ava'
+        />
 
-      <div>
-        <AvatarImg src={profile.photos.large} />
-        <ProfileStatus status={status} updateStatus={updateStatus} />
-      </div>
-      <div>
         <div>
-          <b>{profile.fullName}</b>
+          <AvatarImg src={profile.photos.large} />
+          <ProfileStatus status={status} updateStatus={updateStatus} />
         </div>
-        <div>{profile.aboutMe}</div>
-        <div>{profile.contacts.vk}</div>
-      </div>
-    </Wrapper>
-  );
+        <div>
+          <div>
+            <b>{profile.fullName}</b>
+          </div>
+          <div>{profile.aboutMe}</div>
+          <div>{profile.contacts.vk}</div>
+        </div>
+      </Wrapper>
+    );
 };
 
 const Wrapper = styled.div`

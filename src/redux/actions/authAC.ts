@@ -24,53 +24,54 @@ export const setErrorAuth = (errors: string[] | null) => {
   } as const;
 };
 
-export const getAuthUserData = () => (dispatch: Dispatch) => {
-  return authApi.authMe().then((data: any) => {
-    if (data.resultCode === 0) {
-      const { id, login, email } = data.data;
-      dispatch(
-        setAuthUserData({ id, login, email, isAuth: true, serverError: null })
-      );
-    }
-    if (data.resultCode === 1) {
-      console.warn("NOT AUTHORIZED");
-    }
-  });
+export const getAuthUserData = () => async (dispatch: Dispatch) => {
+  let response = await authApi.authMe();
+
+  if (response.resultCode === 0) {
+    const { id, login, email } = response.data;
+    dispatch(
+      setAuthUserData({ id, login, email, isAuth: true, serverError: null })
+    );
+  }
+  if (response.resultCode === 1) {
+    console.warn("NOT AUTHORIZED");
+  }
 };
 
-export const signInUser = (data: signInObjType) => (dispatch: AppDispatch) => {
-  authApi.signIn(data).then((data) => {
-    const userId = data.data.userId;
-    if (data.resultCode === 0 && userId) {
+export const signInUser =
+  (data: signInObjType) => async (dispatch: AppDispatch) => {
+    let response = await authApi.signIn(data);
+
+    const userId = response.data.userId;
+    if (response.resultCode === 0 && userId) {
       dispatch(getAuthUserData());
       dispatch(setErrorAuth(null));
     }
-    if (data.resultCode === 1) {
-      console.error("Login Error>>>" + returnMessages(data.messages));
-      dispatch(setErrorAuth(data.messages));
+    if (response.resultCode === 1) {
+      console.error("Login Error>>>" + returnErrorMessages(response.messages));
+      dispatch(setErrorAuth(response.messages));
     }
-  });
-};
-export const logOut = () => (dispatch: AppDispatch) => {
-  authApi.logOut().then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(
-        setAuthUserData({
-          id: null,
-          login: null,
-          email: null,
-          isAuth: false,
-          serverError: null,
-        })
-      );
-    }
-    if (data.resultCode === 1) {
-      console.error("Login Error>>>" + returnMessages(data.messages));
-    }
-  });
+  };
+export const logOut = () => async (dispatch: AppDispatch) => {
+  let response = await authApi.logOut();
+
+  if (response.resultCode === 0) {
+    dispatch(
+      setAuthUserData({
+        id: null,
+        login: null,
+        email: null,
+        isAuth: false,
+        serverError: null,
+      })
+    );
+  }
+  if (response.resultCode === 1) {
+    console.error("Login Error>>>" + returnErrorMessages(response.messages));
+  }
 };
 
-const returnMessages = (arr: string[]) => {
+const returnErrorMessages = (arr: string[]) => {
   let string = " ";
   arr.forEach((e) => {
     string = string + e + "; ";

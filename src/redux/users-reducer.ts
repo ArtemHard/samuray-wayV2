@@ -139,34 +139,30 @@ export const toggleIsFollowingProgress = (
 };
 
 export const getUsers =
-  (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+  (currentPage: number, pageSize: number) => async (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(currentPage));
-    usersApi.getUsers(currentPage, pageSize).then((data) => {
-      dispatch(setUsers(data.items));
-      dispatch(toggleIsFetching(false));
-      if (typeof data.totalCount === "number")
-        dispatch(setTotalUsersCount(data.totalCount));
-    });
+    const response = await usersApi.getUsers(currentPage, pageSize);
+    dispatch(setUsers(response.items));
+    dispatch(toggleIsFetching(false));
+    if (typeof response.totalCount === "number")
+      dispatch(setTotalUsersCount(response.totalCount));
   };
-export const follow = (userId: number) => (dispatch: Dispatch) => {
+export const follow = (userId: number) => async (dispatch: Dispatch) => {
   dispatch(toggleIsFollowingProgress(true, userId));
-  usersApi.unFollowUser(userId).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(unFollowSuccess(userId));
-      dispatch(toggleIsFollowingProgress(false, userId));
-    }
+  const response = await usersApi.unFollowUser(userId);
+  if (response.resultCode === 0) {
+    dispatch(unFollowSuccess(userId));
     dispatch(toggleIsFollowingProgress(false, userId));
-  });
+  }
+  dispatch(toggleIsFollowingProgress(false, userId));
 };
-export const unFollow = (userId: number) => (dispatch: Dispatch) => {
+export const unFollow = (userId: number) => async (dispatch: Dispatch) => {
   dispatch(toggleIsFollowingProgress(true, userId));
-  usersApi.followUser(userId).then((data) => {
-    console.log(data);
-    if (data.resultCode === 0) {
-      dispatch(followSuccess(userId));
-      dispatch(toggleIsFollowingProgress(false, userId));
-    }
+  const response = await usersApi.followUser(userId);
+  if (response.resultCode === 0) {
+    dispatch(followSuccess(userId));
     dispatch(toggleIsFollowingProgress(false, userId));
-  });
+  }
+  dispatch(toggleIsFollowingProgress(false, userId));
 };

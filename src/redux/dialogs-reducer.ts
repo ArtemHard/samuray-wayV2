@@ -3,7 +3,6 @@ import {
   MessageType,
 } from "./types/reducersTypes/dialogsReducerTypes";
 const SEND_MESSAGE = "ADD-NEWPOSTTEXT";
-const UPDATE_NEWPOSTTEXT = "UPDATE-NEWPOSTTEXT";
 
 export type messagesPageType = {
   messages: MessageType[];

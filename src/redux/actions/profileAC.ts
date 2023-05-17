@@ -26,30 +26,24 @@ export const setUserProfile = (profile: any) => {
   } as const;
 };
 
-const setStatus = (status: string) => {
+export const setStatus = (status: string) => {
   return {
     type: "SET-USER-STATUS",
     status,
   } as const;
 };
 
-export const getProfile = (userId: string) => (dispatch: Dispatch) => {
-  profileApi.getProfile(userId).then((data) => {
-    dispatch(setUserProfile(data));
-  });
+export const getProfile = (userId: string) => async (dispatch: Dispatch) => {
+  const response = await profileApi.getProfile(userId);
+  dispatch(setUserProfile(response));
 };
 
-export const getStatus = (userId: string) => (dispatch: Dispatch) => {
-  profileApi.getStatus(userId).then((data) => {
-    console.log(data);
-
-    if (data) dispatch(setStatus(data));
-  });
+export const getStatus = (userId: string) => async (dispatch: Dispatch) => {
+  const response = await profileApi.getStatus(userId);
+  if (response.data) dispatch(setStatus(response.data));
 };
-export const updateStatus = (newStatus: string) => (dispatch: Dispatch) => {
-  profileApi.updateStatus(newStatus).then((data) => {
-    console.log(data);
-
-    if (data.resultCode === 0) dispatch(setStatus(newStatus));
-  });
-};
+export const updateStatus =
+  (newStatus: string) => async (dispatch: Dispatch) => {
+    const response = await profileApi.updateStatus(newStatus);
+    if (response.resultCode === 0) dispatch(setStatus(newStatus));
+  };

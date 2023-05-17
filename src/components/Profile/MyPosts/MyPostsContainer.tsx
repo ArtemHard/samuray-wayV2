@@ -1,10 +1,10 @@
-import { MyPosts } from "./MyPosts";
 import { connect } from "react-redux";
 import { reducersType, store } from "../../../redux/redux-store";
 import { Dispatch } from "redux";
 
 import { addPost, updatePosts } from "../../../redux/actions/profileAC";
 import { PostType } from "../../../redux/types/reducersTypes/profileReducerType";
+import { MyPosts } from "./MyPosts";
 
 type MapStateToProps = {
   posts: PostType[];

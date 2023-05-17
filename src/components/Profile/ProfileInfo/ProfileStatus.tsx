@@ -36,7 +36,6 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
       this.setState({
         status: this.props.status,
       });
-      console.log("did update");
     }
   }
   render() {
