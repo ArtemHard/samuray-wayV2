@@ -41,6 +41,8 @@ export const usersReducer = (
 ): InitialStateUsersType => {
   switch (action.type) {
     case "FOLLOW":
+      console.log("follow");
+
       const newState = {
         ...state,
         users: updateOblectInArray(state.users, action.id, "id", {
@@ -53,6 +55,8 @@ export const usersReducer = (
       return newState;
 
     case "UNFOLLOW":
+      console.log("unfollow");
+
       return {
         ...state,
         users: updateOblectInArray(state.users, action.id, "id", {

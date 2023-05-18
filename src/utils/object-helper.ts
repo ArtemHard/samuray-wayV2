@@ -8,7 +8,8 @@ export const updateOblectInArray = (
     [key: string]: boolean;
   }
 ) => {
+  // debugger;
   return items.map((u) =>
-    u[objPropName] === itemId ? { ...u, newObjProps } : u
+    u[objPropName] === itemId ? { ...u, ...newObjProps } : u
   );
 };

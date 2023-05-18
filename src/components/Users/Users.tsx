@@ -1,11 +1,9 @@
-import axios from "axios";
-import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { usersApi } from "../../api/usersApi";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
-import { SpanPageCount } from "./Users.styled";
+import { Paginator } from "../common/Paginator/Paginator";
+import { User } from "./User";
 
 type UsersPropsType = {
   users: Array<UsersType>;
@@ -17,74 +15,33 @@ type UsersPropsType = {
   unFollow: (id: number) => void;
   onPageChanged: (pageNumber: number) => void;
 };
-export const Users = (props: UsersPropsType) => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-  let pages = [];
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
+export const Users = ({
+  currentPage,
+  follow,
+  followingInProgress,
+  onPageChanged,
+  pageSize,
+  totalUsersCount,
+  unFollow,
+  users,
+}: UsersPropsType) => {
   return (
     <div>
-      <div>
-        {pages.map((p) => {
-          return (
-            <SpanPageCount
-              key={p}
-              className={props.currentPage === p ? "selected" : ""}
-              onClick={() => props.onPageChanged(p)}
-            >
-              {p}
-            </SpanPageCount>
-          );
-        })}
-      </div>
-      {props.users.map((u) => (
-        <div key={u.id}>
-          <span>
-            <div>
-              <NavLink to={"/profile/" + u.id}>
-                <AvatarImg
-                  src={u.photos.small ? u.photos.small : avatarUrlUndefined}
-                />
-              </NavLink>
-            </div>
-            <div>
-              {u.followed ? (
-                <button
-                  onClick={() => props.follow(u.id)}
-                  disabled={props.followingInProgress.some((id) => id === u.id)}
-                >
-                  UnFollowed
-                </button>
-              ) : (
-                <button
-                  onClick={() => props.unFollow(u.id)}
-                  disabled={props.followingInProgress.some((id) => id === u.id)}
-                >
-                  Followed
-                </button>
-              )}
-            </div>
-          </span>
-          <span>
-            <span>
-              <div>{u.name}</div>
-              <div>{u.status}</div>
-            </span>
-            <span>
-              <div>{"u.location.country"}</div>
-              <div>{"u.location.city"}</div>
-            </span>
-          </span>
-        </div>
+      <Paginator
+        currentPage={currentPage}
+        onPageChanged={onPageChanged}
+        pageSize={pageSize}
+        totalUsersCount={totalUsersCount}
+      />
+      {users.map((u) => (
+        <User
+          key={u.id}
+          follow={follow}
+          followingInProgress={followingInProgress}
+          unFollow={unFollow}
+          user={u}
+        />
       ))}
     </div>
   );
 };
-
-const AvatarImg = styled.img.attrs({
-  className: "userPhoto",
-})`
-  width: 100px;
-  height: 100px;
-`;
