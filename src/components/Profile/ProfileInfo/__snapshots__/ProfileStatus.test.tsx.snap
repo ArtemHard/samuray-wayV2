@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileStatus Component render title renders with  title 1`] = `
+<div>
+  <div>
+    <span
+      onDoubleClick={[Function]}
+    >
+      it-icuba-artem
+    </span>
+  </div>
+</div>
+`;
+
+exports[`ProfileStatus Component render title renders with new props 1`] = `
+<div>
+  <div>
+    <span
+      onDoubleClick={[Function]}
+    >
+      it-icuba-123
+    </span>
+  </div>
+</div>
+`;
+
+exports[`ProfileStatus Component status from props should be in the state 1`] = `
+<div>
+  <div>
+    <span
+      onDoubleClick={[Function]}
+    >
+      it-icuba-artem
+    </span>
+  </div>
+</div>
+`;
