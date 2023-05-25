@@ -1,5 +1,6 @@
 import TestRenderer, { ReactTestRenderer, create } from "react-test-renderer";
 import { ProfileStatus } from "./ProfileStatus";
+import * as ReactDOM from "react-dom";
 
 describe("ProfileStatus Component", () => {
   test("status from props should be in the state", () => {
@@ -38,5 +39,27 @@ describe("ProfileStatus Component", () => {
     // console.log("asdfasdf>>>>>>>>>>>>>>>.", span);
 
     // expect(testInstance.instance.state?.status).toEqual("it-icuba-artem");
+  });
+});
+
+describe("ProfileStatusTest with render", () => {
+  let container: HTMLDivElement;
+
+  beforeEach(() => {
+    container = document.createElement("div");
+    document.body.appendChild(container);
+    // eslint-disable-next-line testing-library/no-render-in-setup
+    ReactDOM.render(
+      <ProfileStatus status='123' updateStatus={() => {}} />,
+      container
+    );
+  });
+  // afterEach(() => {
+  //   document.removeChild(container);
+  //   container.remove();
+  // });
+  it("Renders correctly initial document", () => {
+    const span = container.querySelector("span");
+    expect(span?.innerHTML).toHaveLength(3);
   });
 });
