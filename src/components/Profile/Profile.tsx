@@ -6,8 +6,10 @@ import { ProfileType } from "../../redux/types/reducersTypes/profileReducerType"
 import { AnyAction, Dispatch } from "redux";
 
 export type ProfilePropsType = {
+  isOwner: boolean;
   profile: ProfileType | null;
   status: string;
+  savePhoto: (file: string) => void;
   updateStatus: (newStatus: string) => void;
 };
 

@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { ProfileReducerActionTypes } from "./actions/profileAC";
 import {
   PostType,
@@ -55,6 +56,9 @@ export const ProfileReducer = (
     }
     case "SET-USER-STATUS": {
       return { ...state, status: action.status };
+    }
+    case "SAVE-PHOTO-SUCCESS": {
+      return { ...state, profile: { ...state.profile, photos: action.photos } };
     }
     default:
       return state;

@@ -6,6 +6,7 @@ import { WithAuthRedirectComponent } from "../../../hocs/withAuthRedirectCompone
 import {
   getProfile,
   getStatus,
+  savePhoto,
   updateStatus,
 } from "../../../redux/actions/profileAC";
 import { reducersType } from "../../../redux/redux-store";
@@ -16,7 +17,8 @@ import { withRouter } from "../../../hocs/withRouter";
 type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
 
 export class ProfileContainer extends Component<ProfileContainerPropsType> {
-  componentDidMount(): void {
+  refreshProfile() {
+    debugger;
     let { userId } = this.props.params;
     const authorizedUserId = this.props.authorizedUserId;
 
@@ -27,9 +29,20 @@ export class ProfileContainer extends Component<ProfileContainerPropsType> {
     this.props.getProfile(userId);
     this.props.getStatus(userId);
   }
+  componentDidMount(): void {
+    debugger;
+    this.refreshProfile();
+  }
+
+  componentDidUpdate(prevProps: ProfileContainerPropsType): void {
+    debugger;
+    if (this.props.params.userId !== prevProps.params.userId) {
+      this.refreshProfile();
+    }
+  }
 
   render() {
-    return <Profile {...this.props} />;
+    return <Profile {...this.props} isOwner={!this.props.params.userId} />;
   }
 }
 
@@ -79,6 +92,7 @@ const connector = connect(mapStateToProps, {
   getProfile,
   getStatus,
   updateStatus,
+  savePhoto,
 });
 export default compose<ComponentType>(
   connector,
