@@ -10,6 +10,7 @@ export const ProfileInfo = ({
   profile,
   status,
   updateStatus,
+  savePhoto,
 }: ProfilePropsType) => {
   const dispatch = useAppDispatch();
 

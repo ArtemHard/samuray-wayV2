@@ -1,5 +1,6 @@
 import { Dispatch } from "redux";
 import { profileApi } from "../../api/profileApi";
+import { ProfilePhotos } from "../types/reducersTypes/profileReducerType";
 
 export type ProfileReducerActionTypes =
   | ReturnType<typeof addPost>
@@ -33,7 +34,7 @@ export const setStatus = (status: string) => {
     status,
   } as const;
 };
-export const savePhotoSuccess = (photos: string) => {
+export const savePhotoSuccess = (photos: ProfilePhotos) => {
   return {
     type: "SAVE-PHOTO-SUCCESS",
     photos,
@@ -54,7 +55,8 @@ export const updateStatus =
     const response = await profileApi.updateStatus(newStatus);
     if (response.resultCode === 0) dispatch(setStatus(newStatus));
   };
-export const savePhoto = (file: string) => async (dispatch: Dispatch) => {
+export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
   const response = await profileApi.savePhoto(file);
-  if (response.resultCode === 0) dispatch(savePhotoSuccess(newStatus));
+  if (response.resultCode === 0)
+    dispatch(savePhotoSuccess(response.data.photos));
 };

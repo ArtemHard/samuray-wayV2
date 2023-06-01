@@ -9,7 +9,7 @@ export type ProfilePropsType = {
   isOwner: boolean;
   profile: ProfileType | null;
   status: string;
-  savePhoto: (file: string) => void;
+  savePhoto: (file: File) => void;
   updateStatus: (newStatus: string) => void;
 };
 

@@ -58,7 +58,12 @@ export const ProfileReducer = (
       return { ...state, status: action.status };
     }
     case "SAVE-PHOTO-SUCCESS": {
-      return { ...state, profile: { ...state.profile, photos: action.photos } };
+      if (state.profile !== null)
+        return {
+          ...state,
+          profile: { ...state.profile, photos: { ...action.photos } },
+        };
+      else return state;
     }
     default:
       return state;

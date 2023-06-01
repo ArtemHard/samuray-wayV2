@@ -1,3 +1,5 @@
+import { ProfilePhotos } from "../redux/types/reducersTypes/profileReducerType";
+import { returnData } from "../utils/return-data";
 import { instance } from "./axios";
 export const profileApi = {
   getProfile(userId?: string) {
@@ -19,6 +21,29 @@ export const profileApi = {
       })
       .then((response) => response.data);
   },
+  savePhoto(photoFile: File) {
+    const formData = new FormData();
+    formData.append("image", photoFile);
+    return instance
+      .put<ServerResponse<{ photos: ProfilePhotos }>>(
+        "/profile/photo",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((response) => {
+        return response.data;
+      });
+  },
 };
 
-const generateUserId = (userId?: string) => (userId ? userId : "28053");
+const generateUserId = (userId?: string) => (userId ? userId : userId);
+
+type ServerResponse<T> = {
+  resultCode: number;
+  messages: string[];
+  data: T;
+};

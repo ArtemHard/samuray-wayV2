@@ -18,7 +18,6 @@ type ProfileContainerPropsType = PropsFromRedux & WithRouterProps;
 
 export class ProfileContainer extends Component<ProfileContainerPropsType> {
   refreshProfile() {
-    debugger;
     let { userId } = this.props.params;
     const authorizedUserId = this.props.authorizedUserId;
 
@@ -30,12 +29,10 @@ export class ProfileContainer extends Component<ProfileContainerPropsType> {
     this.props.getStatus(userId);
   }
   componentDidMount(): void {
-    debugger;
     this.refreshProfile();
   }
 
   componentDidUpdate(prevProps: ProfileContainerPropsType): void {
-    debugger;
     if (this.props.params.userId !== prevProps.params.userId) {
       this.refreshProfile();
     }
