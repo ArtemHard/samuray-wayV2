@@ -43,6 +43,7 @@ export class ProfileStatus extends Component<ProfileStatusPropsType> {
       <div>
         {!this.state.editMode && (
           <div>
+            <b>Status: </b>
             <span onDoubleClick={this.activateEditMode}>
               {this.props.status || "status doesnt exist"}
             </span>

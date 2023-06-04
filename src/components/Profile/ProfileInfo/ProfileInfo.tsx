@@ -1,9 +1,12 @@
 import styled from "styled-components";
+import { useState } from "react";
 import { Loader } from "../../common/Loader/Loader";
 import { ProfileStatus } from "./ProfileStatus";
 import { ProfilePropsType } from "../Profile";
 import { avatarUrlUndefined } from "../../assets/images/constantsImg";
 import { useAppDispatch } from "../../../hooks/reduxHooks";
+import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
+import { ProfileDataForm } from "./ProfileDataForm";
 
 export const ProfileInfo = ({
   isOwner,
@@ -19,20 +22,28 @@ export const ProfileInfo = ({
       dispatch(savePhoto(e.target.files[0]));
     }
   };
+
+  const [editMode, setEditMode] = useState(false);
+
   if (!profile) {
     return <Loader />;
   } else
     return (
       <Wrapper>
-        {/* <img
-          src='https://e7.pngegg.com/pngimages/340/946/png-clipart-avatar-user-computer-icons-software-developer-avatar-child-face-thumbnail.png'
-          alt='ava'
-        /> */}
-
         <div>
           <AvatarImg src={profile.photos.large || avatarUrlUndefined} />
           {isOwner && <input type='file' onChange={onMainPhotoSelected} />}
-          <ProfileStatus status={status} updateStatus={updateStatus} />
+          {editMode ? (
+            <ProfileDataForm profile={profile} setEditMode={setEditMode} />
+          ) : (
+            <ProfileData
+              activateMode={() => {
+                setEditMode(true);
+              }}
+              isOwner={isOwner}
+              profile={profile}
+            />
+          )}
         </div>
         <div>
           <div>
@@ -60,3 +71,64 @@ const AvatarImg = styled.img.attrs<AvatarImgPropsType>((props) => ({
   width: 150px;
   object-fit: cover;
 `;
+
+type ContactPropsType = {
+  contactTitle: string;
+  contactValue: string;
+};
+export const Contact = ({ contactTitle, contactValue }: ContactPropsType) => {
+  return (
+    <ContactWrapper>
+      <b>{contactTitle}</b>: {contactValue}
+    </ContactWrapper>
+  );
+};
+
+const ContactWrapper = styled.div`
+  padding: 0 20px;
+`;
+
+export type ProfileDataType = {
+  isOwner: boolean;
+  profile: ProfileType;
+  activateMode: () => void;
+};
+
+const ProfileData = ({ profile, isOwner, activateMode }: ProfileDataType) => {
+  return (
+    <div>
+      {isOwner && (
+        <div>
+          <button onClick={activateMode}>edit</button>
+        </div>
+      )}
+      <div>
+        <b>Full name</b>: {profile.fullName}
+      </div>
+      <div>
+        <b>Looking for a job</b>: {profile.lookingForAJob ? "yes" : "no"}
+      </div>
+      {profile.lookingForAJobDescription && (
+        <div>
+          <b>My professional skills</b>: {profile.lookingForAJob}
+        </div>
+      )}
+      <div>
+        <b>About me</b>: {profile.aboutMe}
+      </div>
+      <div>
+        <b>Contacts</b>:{" "}
+        {Object.keys(profile.contacts).map((key) => {
+          return (
+            <Contact
+              key={key}
+              contactTitle={key}
+              //@ts-ignore
+              contactValue={profile.contacts[key]}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
