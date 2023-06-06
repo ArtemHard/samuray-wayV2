@@ -5,8 +5,16 @@ import { ProfileStatus } from "./ProfileStatus";
 import { ProfilePropsType } from "../Profile";
 import { avatarUrlUndefined } from "../../assets/images/constantsImg";
 import { useAppDispatch } from "../../../hooks/reduxHooks";
-import { ProfileType } from "../../../redux/types/reducersTypes/profileReducerType";
-import { ProfileDataForm } from "./ProfileDataForm";
+import {
+  ProfileContacts,
+  ProfileType,
+} from "../../../redux/types/reducersTypes/profileReducerType";
+import {
+  ContactsKey,
+  ProfileDataForm,
+  ProfileDataFormInputsType,
+} from "./ProfileDataForm";
+import { UseFormRegister } from "react-hook-form";
 
 export const ProfileInfo = ({
   isOwner,

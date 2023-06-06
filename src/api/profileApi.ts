@@ -1,4 +1,8 @@
-import { ProfilePhotos } from "../redux/types/reducersTypes/profileReducerType";
+import {
+  ProfileContacts,
+  ProfilePhotos,
+  ProfileType,
+} from "../redux/types/reducersTypes/profileReducerType";
 import { returnData } from "../utils/return-data";
 import { instance } from "./axios";
 export const profileApi = {
@@ -38,6 +42,13 @@ export const profileApi = {
         return response.data;
       });
   },
+  saveProfile(profileData: profileServerData) {
+    return instance
+      .put<ServerResponse<{}>>("profile", profileData)
+      .then((response) => {
+        return response.data;
+      });
+  },
 };
 
 const generateUserId = (userId?: string) => (userId ? userId : userId);
@@ -47,3 +58,17 @@ type ServerResponse<T> = {
   messages: string[];
   data: T;
 };
+
+// export type profileServerData = {
+//   contacts?: ProfileContacts;
+//   lookingForAJob: boolean;
+//   lookingForAJobDescription: string;
+//   fullName: string;
+//   aboutMe: string
+// };
+
+// userId need for thunk that send request for update userInfo
+export type profileServerData = Omit<
+  ProfileType,
+  "photos" | "contacts" | "userId"
+>;

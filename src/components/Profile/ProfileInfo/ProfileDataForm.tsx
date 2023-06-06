@@ -1,17 +1,26 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Contact, ProfileDataType } from "./ProfileInfo";
-import { useAppDispatch } from "../../../hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks";
+import { profileApi } from "../../../api/profileApi";
+import { selectorAuthId } from "../../../redux/selectors";
+import { saveProfile } from "../../../redux/actions/profileAC";
+import { useState } from "react";
+import {
+  ProfileContacts,
+  ProfileType,
+} from "../../../redux/types/reducersTypes/profileReducerType";
 
-type Inputs = {
+export type ProfileDataFormInputsType = {
   aboutMe: string;
   fullName: string;
   lookingForAJob: boolean;
   lookingForAJobDescription: string;
-
-  //   contacts: ProfileContacts;
+  //   contacts?: ProfileContacts;
   //   userId: number;
   //   photos: ProfilePhotos;
 };
+
+export type ContactsKey = keyof ProfileType["contacts"];
 
 export const ProfileDataForm = ({
   profile,
@@ -24,15 +33,17 @@ export const ProfileDataForm = ({
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<Inputs>();
-
+  } = useForm<ProfileDataFormInputsType>();
+  const [isChecked, setIsChecked] = useState(profile.lookingForAJob);
   const dispatch = useAppDispatch();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    alert("ACTION, info in console");
+  const onSubmit: SubmitHandler<ProfileDataFormInputsType> = (data) => {
     console.log(data);
+    dispatch(saveProfile(data));
     setEditMode(false);
   };
+
+  const keys = Object.keys(profile.contacts) as ContactsKey[];
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -42,7 +53,10 @@ export const ProfileDataForm = ({
 
       <div>
         <b>Full name</b>:{" "}
-        <input defaultValue={profile.fullName} {...register("fullName")} />
+        <input
+          defaultValue={profile.fullName}
+          {...register("fullName", { required: true })}
+        />
       </div>
       <div>
         <b>Looking for a job</b>:
@@ -53,22 +67,25 @@ export const ProfileDataForm = ({
         <b>My professional skills</b>:
         <textarea
           defaultValue={profile.lookingForAJobDescription}
-          {...register("lookingForAJobDescription")}
+          {...register("lookingForAJobDescription", { required: true })}
         />
       </div>
 
       <div>
         <b>About me</b>:
-        <textarea defaultValue={profile.aboutMe} {...register("aboutMe")} />
+        <textarea
+          defaultValue={profile.aboutMe}
+          {...register("aboutMe", { required: true })}
+        />
       </div>
       <div>
         <b>Contacts</b>:{" "}
-        {Object.keys(profile.contacts).map((key) => {
+        {keys.map((key) => {
           return (
             <Contact
               key={key}
               contactTitle={key}
-              //@ts-ignore
+              //   @ts-ignore
               contactValue={profile.contacts[key]}
             />
           );
