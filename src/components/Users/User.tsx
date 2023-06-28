@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { UsersType } from "../../redux/users-reducer";
 import { avatarUrlUndefined } from "../assets/images/constantsImg";
-import { Paginator } from "../common/Paginator/Paginator";
 
 type UserPropsType = {
   user: UsersType;
@@ -11,18 +10,14 @@ type UserPropsType = {
   unFollow: (id: number) => void;
 };
 export const User = ({
-  // currentPage,
   follow,
   followingInProgress,
-  // onPageChanged,
-  // pageSize,
-  // totalUsersCount,
   unFollow,
   user,
 }: UserPropsType) => {
   return (
     <div>
-      <span>
+      <div>
         <div>
           <NavLink to={"/profile/" + user.id}>
             <AvatarImg
@@ -47,17 +42,17 @@ export const User = ({
             </button>
           )}
         </div>
-      </span>
-      <span>
-        <span>
-          <div>{user.name}</div>
-          <div>{user.status}</div>
-        </span>
-        <span>
-          <div>{"u.location.country"}</div>
-          <div>{"u.location.city"}</div>
-        </span>
-      </span>
+      </div>
+      <div>
+        <div>
+          <h4>{user.name}</h4>
+          <p>{user.status}</p>
+        </div>
+        <div>
+          <p>{"u.location.country"}</p>
+          <p>{"u.location.city"}</p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -70,5 +70,7 @@ export const saveProfile =
     const response = await profileApi.saveProfile(profileData);
     if (response.resultCode === 0 && userId) {
       dispatch(getProfile(userId));
+    } else {
+      alert("ERROR add good perfomance for this");
     }
   };
