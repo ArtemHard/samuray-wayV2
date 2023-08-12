@@ -35,11 +35,14 @@ export const selectorAuthErrors = (state: reducersType) => {
     serverError: state.auth.serverError,
   } as const;
 };
-
+// GLOBAL
 export const selectorAppInitialized = (state: reducersType) => {
   return {
     initialized: state.app.initialized,
   };
+};
+export const selectorGlobalError = (state: reducersType) => {
+  return state.app.globalError;
 };
 
 // UsersSelectors

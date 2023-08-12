@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { SpanPageCount } from "../../Users/Users.styled";
 import styled, { css } from "styled-components";
 
 type PaginatorPropsType = {
@@ -22,7 +21,7 @@ export const Paginator = ({
   for (let i = 1; i <= pagesCount; i++) {
     pages.push(i);
   }
-  let portionCount = Math.ceil(pagesCount / portionSize); //portionSize-получаем из пропс
+  let portionCount = Math.ceil(pagesCount / portionSize);
   //узнаем сколько порций у нас получится
   let [portionNumber, setPortionNumber] = useState(1);
   //здесь хранится номер порции
@@ -42,29 +41,22 @@ export const Paginator = ({
             prev
           </button>
         )}
-        {/*левая кнопка prev, которая появляется, когда есть куда возвращаться*/}
+
         {pages
           .filter(
             (f) => f >= leftPortionPageNumber && f <= rightPortionPageNumber
           )
-          //раньше заливали все номера, чейчас делим на порции
-          .map(
-            (p) => (
-              <PageSpanpaginator
-                key={p}
-                boldNumber={currentPage === p}
-                onClick={(event) => {
-                  onPageChanged(p);
-                }}
-              >
-                {p}
-              </PageSpanpaginator>
-            )
-
-            // <span className={
-            // currentPage === p ? styles.selectedPage : styles.pages}
-            // onClick={(event) => {onPageChanged(p)}}>{p}</span>
-          )}
+          .map((p) => (
+            <PageSpanpaginator
+              key={p}
+              boldNumber={currentPage === p}
+              onClick={(event) => {
+                onPageChanged(p);
+              }}
+            >
+              {p}
+            </PageSpanpaginator>
+          ))}
         {portionCount > portionNumber && (
           <button
             onClick={() => {
@@ -74,7 +66,6 @@ export const Paginator = ({
             next
           </button>
         )}
-        {/*правая кнопка next, которая исчезает, когда есть куда идти вперед*/}
       </div>
     </div>
   );
@@ -93,18 +84,3 @@ const PageSpanpaginator = styled.span<boldNumberType>`
       font-size: 20px;
     `}
 `;
-
-// <div>
-//   {portionNumber > 1 &&
-//   {pages.map((p) => {
-//     return (
-//       <SpanPageCount
-//         key={p}
-//         className={currentPage === p ? "selected" : ""}
-//         onClick={() => onPageChanged(p)}
-//       >
-//         {p}
-//       </SpanPageCount>
-//     );
-//   })}}
-// </div>

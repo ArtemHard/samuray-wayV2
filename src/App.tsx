@@ -10,8 +10,8 @@ import { Footer } from "./Footer";
 import { Login } from "./components/Login/Login";
 import { useAppDispatch, useAppSelector } from "./hooks/reduxHooks";
 import { lazy, useEffect } from "react";
-import { initializeApp } from "./redux/actions/appAC";
-import { selectorAppInitialized } from "./redux/selectors";
+import { initializeApp, setGlobalError } from "./redux/actions/appAC";
+import { selectorAppInitialized, selectorGlobalError } from "./redux/selectors";
 import { Loader } from "./components/common/Loader/Loader";
 import { withSuspenseComponent } from "./utils/withSuspenseComponent";
 
@@ -25,11 +25,31 @@ const ProfileContainer = lazy(
 
 function App() {
   const { initialized } = useAppSelector(selectorAppInitialized);
-
+  const globalError = useAppSelector(selectorGlobalError);
   const dispatch = useAppDispatch();
+
+  const catchAllUnhandledErrors = (ev: PromiseRejectionEvent) => {
+    // alert("some error occured");
+    // dispatch(setGlobalError())
+    console.error(ev);
+  };
+
   useEffect(() => {
+    window.addEventListener("unhandledrejection", catchAllUnhandledErrors);
     dispatch(initializeApp());
+    return () => {
+      window.removeEventListener("unhandledrejection", catchAllUnhandledErrors);
+    };
   }, []);
+
+  useEffect(() => {
+    if (globalError) {
+      alert(globalError);
+      setTimeout(() => {
+        dispatch(setGlobalError(null));
+      }, 3000);
+    }
+  }, [globalError]);
   return initialized ? (
     <div className='AppWrapper'>
       <HeaderContainer />
@@ -45,6 +65,14 @@ function App() {
         />
         <Route path='/users' element={<UsersContainer />} />
         <Route path='/login' element={<Login />} />
+        <Route
+          path='*'
+          element={
+            <div>
+              <h1>404</h1>
+            </div>
+          }
+        />
       </Routes>
       <Footer />
     </div>

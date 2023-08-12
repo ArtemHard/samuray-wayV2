@@ -4,6 +4,8 @@ import { ProfilePhotos } from "../types/reducersTypes/profileReducerType";
 import { StateType } from "../store";
 import { AppDispatch, RootState, storeType } from "../redux-store";
 import { getUsers } from "../users-reducer";
+import { AxiosError, isAxiosError } from "axios";
+import { setGlobalError } from "./appAC";
 
 export type ProfileReducerActionTypes =
   | ReturnType<typeof addPost>
@@ -45,8 +47,19 @@ export const savePhotoSuccess = (photos: ProfilePhotos) => {
 };
 
 export const getProfile = (userId: string) => async (dispatch: AppDispatch) => {
-  const response = await profileApi.getProfile(userId);
-  dispatch(setUserProfile(response));
+  try {
+    const response = await profileApi.getProfile(userId);
+    dispatch(setUserProfile(response));
+  } catch (error: any) {
+    if (isAxiosError(error)) {
+      const axiosErr = error.response?.data?.error;
+      if (typeof axiosErr === "string") {
+        dispatch(setGlobalError(axiosErr));
+      } else {
+        dispatch(error.message);
+      }
+    }
+  }
 };
 
 export const getStatus = (userId: string) => async (dispatch: AppDispatch) => {
@@ -55,8 +68,19 @@ export const getStatus = (userId: string) => async (dispatch: AppDispatch) => {
 };
 export const updateStatus =
   (newStatus: string) => async (dispatch: AppDispatch) => {
-    const response = await profileApi.updateStatus(newStatus);
-    if (response.resultCode === 0) dispatch(setStatus(newStatus));
+    try {
+      const response = await profileApi.updateStatus(newStatus);
+      if (response.resultCode === 0) dispatch(setStatus(newStatus));
+    } catch (error: any) {
+      if (isAxiosError(error)) {
+        const axiosErr = error.response?.data?.error;
+        if (typeof axiosErr === "string") {
+          dispatch(setGlobalError(axiosErr));
+        } else {
+          dispatch(error.message);
+        }
+      }
+    }
   };
 export const savePhoto = (file: File) => async (dispatch: AppDispatch) => {
   const response = await profileApi.savePhoto(file);
@@ -66,11 +90,34 @@ export const savePhoto = (file: File) => async (dispatch: AppDispatch) => {
 export const saveProfile =
   (profileData: profileServerData) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
-    const userId = getState().auth.id?.toString();
-    const response = await profileApi.saveProfile(profileData);
-    if (response.resultCode === 0 && userId) {
-      dispatch(getProfile(userId));
-    } else {
-      alert("ERROR add good perfomance for this");
+    try {
+      console.warn(profileData);
+
+      const userId = getState().auth.id?.toString();
+      const response = await profileApi.saveProfile(profileData);
+      if (response.resultCode === 0 && userId) {
+        dispatch(getProfile(userId));
+      } else {
+        alert("ERROR add good perfomance for this");
+      }
+    } catch (error: any) {
+      if (isAxiosError(error)) {
+        const axiosErr = error.response?.data?.fieldsErrors;
+        if (Array.isArray(axiosErr) && axiosErr.length) {
+          const errors = axiosErr
+            .map((el) => {
+              if (typeof el === "string") return el;
+            })
+            .join("; ");
+          dispatch(
+            setGlobalError(errors.length ? errors : "Some error uccured")
+          );
+        }
+        if (typeof axiosErr === "string") {
+          dispatch(setGlobalError(axiosErr));
+        } else {
+          dispatch(setGlobalError(error.message));
+        }
+      }
     }
   };
