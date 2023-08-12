@@ -21,6 +21,10 @@ export const selectorAuthisAuth = (state: reducersType) => {
     isAuth: state.auth.isAuth,
   } as const;
 };
+export const selectorCaptchaUrl = (state: reducersType) => {
+  return state.auth.captchaUrl;
+};
+
 export const selectorAuthisFetching = (state: reducersType) => {
   return {
     isFetching: state.auth.isFetching,

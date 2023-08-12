@@ -7,6 +7,7 @@ export interface AuthInitialStateType {
   isAuth: boolean;
   isFetching: boolean;
   serverError: string[] | null;
+  captchaUrl?: string | null;
 }
 
 let initialState: AuthInitialStateType = {
@@ -16,6 +17,7 @@ let initialState: AuthInitialStateType = {
   isAuth: false,
   isFetching: false,
   serverError: null,
+  captchaUrl: null,
 };
 
 export const authReducer = (
@@ -26,9 +28,16 @@ export const authReducer = (
     case "TOGGLE-IS-FETCHING":
       return { ...state, isFetching: action.isFetching };
     case "SET-AUTH-USER-DATA":
-      return { ...state, ...action.userData, isAuth: action.userData.isAuth };
+      return {
+        ...state,
+        ...action.userData,
+        isAuth: action.userData.isAuth,
+        captchaUrl: null,
+      };
     case "SET-ERROR":
       return { ...state, serverError: action.errors };
+    case "SET-CAPTCHA-URL":
+      return { ...state, captchaUrl: action.captchUrl };
     default:
       return state;
   }

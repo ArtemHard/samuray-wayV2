@@ -3,11 +3,13 @@ import { authApi, signInObjType } from "../../api/authApi";
 import { AuthInitialStateType } from "../reducers/auth-reducer";
 import { toggleIsFetching } from "../users-reducer";
 import { AppDispatch } from "../redux-store";
+import { securityApi } from "../../api/securityApi";
 
 export type userAuthActionTypes =
   | ReturnType<typeof setAuthUserData>
   | ReturnType<typeof toggleIsFetching>
-  | ReturnType<typeof setErrorAuth>;
+  | ReturnType<typeof setErrorAuth>
+  | ReturnType<typeof setCaptchaUrl>;
 
 export type userDataType = Omit<AuthInitialStateType, "isFetching">;
 export const setAuthUserData = (userData: userDataType) => {
@@ -21,6 +23,13 @@ export const setErrorAuth = (errors: string[] | null) => {
   return {
     type: "SET-ERROR",
     errors,
+  } as const;
+};
+
+export const setCaptchaUrl = (captchUrl: string) => {
+  return {
+    type: "SET-CAPTCHA-URL",
+    captchUrl,
   } as const;
 };
 
@@ -51,7 +60,18 @@ export const signInUser =
       console.error("Login Error>>>" + returnErrorMessages(response.messages));
       dispatch(setErrorAuth(response.messages));
     }
+    if (response.resultCode === 10) {
+      dispatch(getCaptchaUrl());
+    } else {
+    }
   };
+
+export const getCaptchaUrl = () => async (dispatch: AppDispatch) => {
+  let response = await securityApi.getCaptchaUrl();
+  const captchaUrl = response.url;
+  dispatch(setCaptchaUrl(captchaUrl));
+};
+
 export const logOut = () => async (dispatch: AppDispatch) => {
   let response = await authApi.logOut();
 

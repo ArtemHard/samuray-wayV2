@@ -25,6 +25,7 @@ export type signInObjType = {
   email: string;
   password: string;
   rememberMe: boolean;
+  captcha?: string | null;
 };
 type SignInResponseType = {
   data: userId;

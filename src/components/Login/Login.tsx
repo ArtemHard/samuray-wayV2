@@ -4,7 +4,11 @@ import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
 import { setErrorAuth, signInUser } from "../../redux/actions/authAC";
 import { borderColorForInput } from "../../common/CommonForm";
 import { useNavigate } from "react-router-dom";
-import { selectorAuthErrors, selectorAuthisAuth } from "../../redux/selectors";
+import {
+  selectorAuthErrors,
+  selectorAuthisAuth,
+  selectorCaptchaUrl,
+} from "../../redux/selectors";
 import { useEffect } from "react";
 
 export const Login = () => {
@@ -22,6 +26,7 @@ type CustomError = {
 const LoginForm = () => {
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector(selectorAuthisAuth);
+  const captchaUrl = useAppSelector(selectorCaptchaUrl);
   const { serverError } = useAppSelector(selectorAuthErrors);
   const navigate = useNavigate();
   const {
@@ -79,6 +84,18 @@ const LoginForm = () => {
       </div>
       {errors.password && (
         <span style={{ color: "red" }}>This field is required</span>
+      )}
+      {captchaUrl && (
+        <>
+          <img src={captchaUrl} alt='captcha' />
+          <div>
+            <input
+              type='text'
+              style={borderColorForInput(errors.password?.type)}
+              {...register("captcha", { required: true })}
+            />
+          </div>
+        </>
       )}
       {errors.customError &&
         serverError &&
